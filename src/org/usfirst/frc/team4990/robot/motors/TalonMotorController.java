@@ -8,7 +8,7 @@ public class TalonMotorController extends Talon implements Motor {
 	}
 	
 	@Override
-	public void set(double power) {
+	public void setPower(double power) {
 		this.set(power);
 	}
 

@@ -21,12 +21,12 @@ public class DriveTrain {
 	}
 	
 	private void setLeftPower(double power) {
-		this.leftMotor1.set(power);
-		this.leftMotor2.set(power);
+		this.leftMotor1.setPower(power);
+		this.leftMotor2.setPower(power);
 	}
 	
 	private void setRightPower(double power) {
-		this.rightMotor1.set(power);
-		this.rightMotor2.set(power);
+		this.rightMotor1.setPower(power);
+		this.rightMotor2.setPower(power);
 	}
 }

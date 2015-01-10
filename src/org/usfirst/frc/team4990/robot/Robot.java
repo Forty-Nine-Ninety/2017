@@ -2,6 +2,7 @@
 package org.usfirst.frc.team4990.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import org.usfirst.frc.team4990.robot.motors.TalonMotorController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -11,26 +12,36 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	F310Gamepad gamepad;
+	
+	DriveTrain driveTrain;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-
+    	this.gamepad = new F310Gamepad(0);
+    	
+    	this.driveTrain = new DriveTrain(new TalonMotorController(0),
+    			new TalonMotorController(1),
+    			new TalonMotorController(2),
+    			new TalonMotorController(3));
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+    	
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        double gamepadInput = this.gamepad.getLeftJoystickY();
         
+        this.driveTrain.setSpeed(gamepadInput);
     }
     
     /**

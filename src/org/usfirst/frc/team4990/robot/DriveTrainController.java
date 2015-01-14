@@ -14,25 +14,46 @@ public class DriveTrainController {
 		double turnSteepness = this.gamepad.getRightJoystickX();
 		
 		if (throttle != 0 && turnSteepness != 0) {
-			double leftWheelSpeed = throttle;
-			double rightWheelSpeed = calculateInsideWheelSpeed(throttle, turnSteepness);
-			
-			//the robot should turn to the left, so left wheel is inside, right wheel is outside
-			if (turnSteepness < 0) {
-				leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
-			}
-			
-			this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);
+			driveRobotInArc(throttle, turnSteepness);
 		} else if (throttle != 0 && turnSteepness == 0) {
-			this.driveTrain.setSpeed(throttle, throttle);
+			driveRobotForward(throttle);
 		} else if (throttle == 0 && turnSteepness != 0) {
-			this.driveTrain.setSpeed(turnSteepness, -turnSteepness);
+			turnRobotInPlace(turnSteepness);
 		}
+	}
+	
+	public void driveRobotInArc(double throttle, double turnSteepness) {
+		double leftWheelSpeed = throttle;
+		double rightWheelSpeed = calculateInsideWheelSpeed(throttle, turnSteepness);
+		
+		/* the robot should turn to the left, so left wheel is on the inside
+		 * of the turn, and the right wheel is on the outside of the turn
+		 */
+		if (turnSteepness < 0) {
+			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
+			rightWheelSpeed = throttle;
+		}
+		
+		this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);
 	}
 	
 	public double calculateInsideWheelSpeed(double outsideWheelSpeed, double turnSteepness) {
 		double turnRadius = turnSteepness * Constants.maxTurnRadius;
 		
 		return outsideWheelSpeed * ((turnRadius + Constants.robotWidth) / turnRadius);
+	}
+	
+	public void driveRobotForward(double throttle) {
+		/* the right motor's velocity has the opposite sign of the the left motor's
+		 * since the right motor is oriented in the opposite direction
+		 */
+		this.driveTrain.setSpeed(throttle, -throttle);
+	}
+	
+	public void turnRobotInPlace(double turningSpeed) {
+		/* the right motor's velocity has the same sign of the the left motor's
+		 * since the right motor will spin in the opposite direction from the left
+		 */
+		this.driveTrain.setSpeed(turningSpeed, turningSpeed);
 	}
 }

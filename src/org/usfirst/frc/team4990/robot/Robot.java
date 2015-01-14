@@ -11,9 +11,8 @@ import org.usfirst.frc.team4990.robot.motors.TalonMotorController;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	F310Gamepad gamepad;
-	
-	DriveTrain driveTrain;
+	private F310Gamepad gamepad;
+	private DriveTrain driveTrain;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.

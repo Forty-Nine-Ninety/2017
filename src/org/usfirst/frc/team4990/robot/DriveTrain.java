@@ -3,30 +3,16 @@ package org.usfirst.frc.team4990.robot;
 import org.usfirst.frc.team4990.robot.motors.Motor;
 
 public class DriveTrain {
-	Motor leftMotor1;
-	Motor leftMotor2;
-	Motor rightMotor1;
-	Motor rightMotor2;
+	Gearbox leftGearbox;
+	Gearbox rightGearbox;
 	
 	public DriveTrain(Motor leftMotor1, Motor leftMotor2, Motor rightMotor1, Motor rightMotor2) {
-		this.leftMotor1 = leftMotor1;
-		this.leftMotor2 = leftMotor2;
-		this.rightMotor1 = rightMotor1;
-		this.rightMotor2 = rightMotor2;
+		this.leftGearbox = new Gearbox(leftMotor1, leftMotor2);
+		this.rightGearbox = new Gearbox(rightMotor1, rightMotor2);
 	}
 	
-	public void setSpeed(double power) {
-		setLeftPower(power);
-		setRightPower(power);
-	}
-	
-	private void setLeftPower(double power) {
-		this.leftMotor1.setPower(power);
-		this.leftMotor2.setPower(power);
-	}
-	
-	private void setRightPower(double power) {
-		this.rightMotor1.setPower(power);
-		this.rightMotor2.setPower(power);
+	public void setSpeed(double speed) {
+		this.leftGearbox.setSpeed(speed);
+		this.rightGearbox.setSpeed(speed);
 	}
 }

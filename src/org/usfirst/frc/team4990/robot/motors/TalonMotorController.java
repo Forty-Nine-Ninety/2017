@@ -11,5 +11,4 @@ public class TalonMotorController extends Talon implements Motor {
 	public void setPower(double power) {
 		this.set(power);
 	}
-
 }

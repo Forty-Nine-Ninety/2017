@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team4990.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -22,10 +21,11 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	this.gamepad = new F310Gamepad(0);
     	
-    	this.driveTrain = new DriveTrain(new TalonMotorController(0),
-    			new TalonMotorController(1),
-    			new TalonMotorController(2),
-    			new TalonMotorController(3));
+    	this.driveTrain = new DriveTrain(
+    		new TalonMotorController(0),
+    		new TalonMotorController(1),
+    		new TalonMotorController(2),
+    		new TalonMotorController(3));
     }
 
     /**

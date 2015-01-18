@@ -13,6 +13,7 @@ import org.usfirst.frc.team4990.robot.motors.TalonMotorController;
 public class Robot extends IterativeRobot {
 	private F310Gamepad gamepad;
 	private DriveTrain driveTrain;
+	private DriveTrainController driveTrainController;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -20,11 +21,13 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	this.gamepad = new F310Gamepad(0);
     	
-    	this.driveTrain = new DriveTrain(
+    	this.driveTrain = new DriveTrain( 
     		new TalonMotorController(0),
     		new TalonMotorController(1),
     		new TalonMotorController(2),
     		new TalonMotorController(3));
+    	
+    	this.driveTrainController = new DriveTrainController(this.gamepad, this.driveTrain);
     }
 
     /**
@@ -38,9 +41,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        double gamepadInput = this.gamepad.getLeftJoystickY();
-        
-        this.driveTrain.setSpeed(gamepadInput);
+        this.driveTrainController.translateCurrInputToDrivingInstructions();
     }
     
     /**

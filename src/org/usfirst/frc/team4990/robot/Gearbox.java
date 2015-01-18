@@ -3,8 +3,8 @@ package org.usfirst.frc.team4990.robot;
 import org.usfirst.frc.team4990.robot.motors.Motor;
 
 public class Gearbox {
-	Motor motor1;
-	Motor motor2;
+	private Motor motor1;
+	private Motor motor2;
 	
 	public Gearbox(Motor motor1, Motor motor2) {
 		this.motor1 = motor1;

@@ -22,7 +22,7 @@ public class F310Gamepad extends Joystick {
 		/*this if statement compensates for the value of 
 		* -0.0078125 read as rawInput when the left joystick is not pressed
 		*/
-		if (rawInput < 0 && rawInput > -0.0078125) {
+		if (rawInput < 0 && rawInput >= -0.0078125) {
 			return 0;
 		}
 		

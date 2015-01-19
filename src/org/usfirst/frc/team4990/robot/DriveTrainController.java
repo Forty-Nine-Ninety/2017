@@ -34,8 +34,6 @@ public class DriveTrainController {
 			rightWheelSpeed = throttle;
 		}
 		
-		//System.out.println(leftWheelSpeed + "; " + rightWheelSpeed);
-		
 		this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);
 	}
 	

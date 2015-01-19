@@ -4,7 +4,7 @@ public class Constants {
 	/*
 	 * units: feet
 	 */
-	public static final double robotWidth = 14;
+	public static final double robotWidth = 1;
 	
 	/*
 	 * units: feet

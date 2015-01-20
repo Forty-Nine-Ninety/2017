@@ -29,8 +29,7 @@ public class TeleopDriveTrainController {
 		/* the robot should turn to the left, so left wheel is on the inside
 		 * of the turn, and the right wheel is on the outside of the turn
 		 */
-		if ((turnSteepness < 0 && throttle > 0) || 
-				(turnSteepness > 0 && throttle < 0)) {
+		if ((turnSteepness < 0 && throttle > 0) || (turnSteepness > 0 && throttle < 0)) {
 			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
 			rightWheelSpeed = throttle;
 		}

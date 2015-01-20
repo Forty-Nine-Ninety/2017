@@ -17,12 +17,19 @@ public class F310Gamepad extends Joystick {
 	}
 	
 	public double getLeftJoystickY() {
-		double rawInput = this.getRawAxis(1);
+		/*
+		 * For some reason, the F310 gamepad's left joystick y axis outputs negative
+		 * values for upward joystick movement--not very natural. To make positive 
+		 * output values correspond to 'positive," upward movement of the joystick,
+		 * the value of getRawAxis is multiplied by -1.
+		 */
+		double rawInput = -this.getRawAxis(1);
 		
 		/*this if statement compensates for the value of 
-		* -0.0078125 read as rawInput when the left joystick is not pressed
+		* 0.0078125 read as rawInput (not 0 as expected) when the 
+		* left joystick is in its resting position
 		*/
-		if (rawInput < 0 && rawInput >= -0.0078125) {
+		if (rawInput > 0 && rawInput <= 0.0078125) {
 			return 0;
 		}
 		

@@ -37,21 +37,19 @@ public class DriveTrainController {
 		this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);
 	}
 	
-	public double calculateInsideWheelSpeed(double outsideWheelSpeed, double turnSteepness) {
+	private double calculateInsideWheelSpeed(double outsideWheelSpeed, double turnSteepness) {
 		double turnRadius = Constants.maxTurnRadius - (turnSteepness * Constants.maxTurnRadius);
 		
 		return outsideWheelSpeed * (turnRadius / (turnRadius + Constants.robotWidth));
 	}
 	
 	public void driveRobotForward(double throttle) {
-		/* the right motor's velocity has the opposite sign of the the left motor's
-		 * since the right motor is oriented in the opposite direction
-		 */
+		/* both motors should spin forward. */
 		this.driveTrain.setSpeed(throttle, throttle);
 	}
 	
 	public void turnRobotInPlace(double turningSpeed) {
-		/* the right motor's velocity has the same sign of the the left motor's
+		/* the right motor's velocity has the opposite sign of the the left motor's
 		 * since the right motor will spin in the opposite direction from the left
 		 */
 		this.driveTrain.setSpeed(-turningSpeed, turningSpeed);

@@ -13,7 +13,7 @@ import org.usfirst.frc.team4990.robot.motors.TalonMotorController;
 public class Robot extends IterativeRobot {
 	private F310Gamepad gamepad;
 	private DriveTrain driveTrain;
-	private DriveTrainController driveTrainController;
+	private TeleopDriveTrainController teleopDriveTrainController;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
     		new TalonMotorController(2),
     		new TalonMotorController(3));
     	
-    	this.driveTrainController = new DriveTrainController(this.gamepad, this.driveTrain);
+    	this.teleopDriveTrainController = new TeleopDriveTrainController(this.gamepad, this.driveTrain);
     }
 
     /**

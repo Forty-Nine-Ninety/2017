@@ -9,5 +9,5 @@ public class Constants {
 	/*
 	 * units: feet
 	 */
-	public static final double maxTurnRadius = 10;
+	public static final double maxTurnRadius = 1;
 }

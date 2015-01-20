@@ -12,7 +12,6 @@ public class DriveTrain {
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
-		System.out.println(-leftSpeed + "; " + rightSpeed);
 		this.leftGearbox.setSpeed(-leftSpeed);
 		this.rightGearbox.setSpeed(rightSpeed);
 	}

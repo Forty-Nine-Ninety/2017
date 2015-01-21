@@ -19,22 +19,22 @@ public class TeleopDriveTrainController {
 		this.reverseTurningFlipped = reverseTurningFlipped;
 	}
 	
-	public void translateCurrInputToDrivingInstructions() {
+	public void updateDriveTrainState() {
 		double throttle = this.gamepad.getLeftJoystickY();
 		double turnSteepness = this.gamepad.getRightJoystickX();
 		
 		if (throttle != 0 && turnSteepness != 0) {
-			driveRobotInArc(throttle, turnSteepness);
+			setArcTrajectory(throttle, turnSteepness);
 		} else if (throttle != 0 && turnSteepness == 0) {
-			driveRobotForward(throttle);
+			setStraightTrajectory(throttle);
 		} else if (throttle == 0 && turnSteepness != 0) {
-			turnRobotInPlace(turnSteepness);
+			setTurnInPlaceTrajectory(turnSteepness);
 		} else {
 			this.driveTrain.setSpeed(0.0, 0.0);
 		}
 	}
 	
-	public void driveRobotInArc(double throttle, double turnSteepness) {
+	public void setArcTrajectory(double throttle, double turnSteepness) {
 		double leftWheelSpeed = throttle;
 		double rightWheelSpeed = calculateInsideWheelSpeed(throttle, turnSteepness);
 		
@@ -55,12 +55,12 @@ public class TeleopDriveTrainController {
 		return outsideWheelSpeed * (turnRadius / (turnRadius + Constants.robotWidth));
 	}
 	
-	public void driveRobotForward(double throttle) {
+	public void setStraightTrajectory(double throttle) {
 		/* both motors should spin forward. */
 		this.driveTrain.setSpeed(throttle, throttle);
 	}
 	
-	public void turnRobotInPlace(double turningSpeed) {
+	public void setTurnInPlaceTrajectory(double turningSpeed) {
 		/* the right motor's velocity has the opposite sign of the the left motor's
 		 * since the right motor will spin in the opposite direction from the left
 		 */

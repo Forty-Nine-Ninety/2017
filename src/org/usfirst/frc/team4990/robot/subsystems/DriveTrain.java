@@ -14,12 +14,22 @@ public class DriveTrain {
 		this.rightGearbox = new Gearbox(rightMotor1, rightMotor2);
 	}
 	
-	public void setSpeed(double leftSpeed, double rightSpeed) {
-		this.leftGearbox.setSpeed(leftSpeed);
-		this.rightGearbox.setSpeed(-rightSpeed);
-		
+	public void setSpeed(double leftSpeed, double rightSpeed) {		
+		setLeftSpeed(leftSpeed);
+		setRightSpeed(rightSpeed);
+	}
+	
+	public void setLeftSpeed(double leftSpeed) {
 		this.leftSetSpeed = leftSpeed;
+	}
+	
+	public void setRightSpeed(double rightSpeed) {
 		this.rightSetSpeed = rightSpeed;
+	}
+	
+	public void update() {
+		this.leftGearbox.setSpeed(this.leftSetSpeed);
+		this.rightGearbox.setSpeed(-this.rightSetSpeed);
 	}
 	
 	public double getLeftSetSpeed() {

@@ -58,8 +58,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        this.teleopDriveTrainController.translateCurrInputToDrivingInstructions();
-        
+        this.teleopDriveTrainController.updateDriveTrainState();
+        this.driveTrain.update();
         this.logger.profileDriveTrain(this.driveTrain);
     }
     

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4990.robot.motors;
+package org.usfirst.frc.team4990.robot.subsystems.motors;
 
 import edu.wpi.first.wpilibj.Talon;
 

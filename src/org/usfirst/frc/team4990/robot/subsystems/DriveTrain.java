@@ -1,6 +1,6 @@
-package org.usfirst.frc.team4990.robot;
+package org.usfirst.frc.team4990.robot.subsystems;
 
-import org.usfirst.frc.team4990.robot.motors.Motor;
+import org.usfirst.frc.team4990.robot.subsystems.motors.Motor;
 
 public class DriveTrain {
 	private Gearbox leftGearbox;

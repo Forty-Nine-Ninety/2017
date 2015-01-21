@@ -1,4 +1,8 @@
-package org.usfirst.frc.team4990.robot;
+package org.usfirst.frc.team4990.robot.controllers;
+
+import org.usfirst.frc.team4990.robot.Constants;
+import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
 
 public class TeleopDriveTrainController {
 	private F310Gamepad gamepad;

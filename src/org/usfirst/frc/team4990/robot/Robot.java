@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4990.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import org.usfirst.frc.team4990.robot.motors.TalonMotorController;
 
 /**
@@ -11,14 +12,22 @@ import org.usfirst.frc.team4990.robot.motors.TalonMotorController;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	private Logger logger;
+	
 	private F310Gamepad gamepad;
 	private DriveTrain driveTrain;
+	
 	private TeleopDriveTrainController teleopDriveTrainController;
+	
+	Preferences prefs;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+    	this.logger = new Logger(new Dashboard());
+    	this.prefs = Preferences.getInstance();
+    	
     	this.gamepad = new F310Gamepad(0);
     	
     	this.driveTrain = new DriveTrain( 
@@ -27,7 +36,11 @@ public class Robot extends IterativeRobot {
     		new TalonMotorController(2),
     		new TalonMotorController(3));
     	
-    	this.teleopDriveTrainController = new TeleopDriveTrainController(this.gamepad, this.driveTrain);
+    	this.teleopDriveTrainController = new TeleopDriveTrainController(
+    		this.gamepad, 
+    		this.driveTrain, 
+    		this.prefs.getDouble("maxTurnRadius", Constants.defaultMaxTurnRadius),
+    		this.prefs.getBoolean("reverseTurningFlipped", true));
     }
 
     /**
@@ -42,6 +55,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         this.teleopDriveTrainController.translateCurrInputToDrivingInstructions();
+        
+        this.logger.profileDriveTrain(this.driveTrain);
     }
     
     /**

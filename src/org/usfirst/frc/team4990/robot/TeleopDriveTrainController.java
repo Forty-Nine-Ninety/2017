@@ -4,9 +4,15 @@ public class TeleopDriveTrainController {
 	private F310Gamepad gamepad;
 	private DriveTrain driveTrain;
 	
-	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain) {
+	private double maxTurnRadius;
+	private boolean reverseTurningFlipped;
+	
+	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped) {
 		this.gamepad = gamepad;
 		this.driveTrain = driveTrain;
+		
+		this.maxTurnRadius = maxTurnRadius;
+		this.reverseTurningFlipped = reverseTurningFlipped;
 	}
 	
 	public void translateCurrInputToDrivingInstructions() {
@@ -19,6 +25,8 @@ public class TeleopDriveTrainController {
 			driveRobotForward(throttle);
 		} else if (throttle == 0 && turnSteepness != 0) {
 			turnRobotInPlace(turnSteepness);
+		} else {
+			this.driveTrain.setSpeed(0.0, 0.0);
 		}
 	}
 	
@@ -38,7 +46,7 @@ public class TeleopDriveTrainController {
 	}
 	
 	private double calculateInsideWheelSpeed(double outsideWheelSpeed, double turnSteepness) {
-		double turnRadius = Constants.maxTurnRadius - (turnSteepness * Constants.maxTurnRadius);
+		double turnRadius = this.maxTurnRadius - (turnSteepness * this.maxTurnRadius);
 		
 		return outsideWheelSpeed * (turnRadius / (turnRadius + Constants.robotWidth));
 	}
@@ -52,6 +60,6 @@ public class TeleopDriveTrainController {
 		/* the right motor's velocity has the opposite sign of the the left motor's
 		 * since the right motor will spin in the opposite direction from the left
 		 */
-		this.driveTrain.setSpeed(-turningSpeed, turningSpeed);
+		this.driveTrain.setSpeed(turningSpeed, -turningSpeed);
 	}
 }

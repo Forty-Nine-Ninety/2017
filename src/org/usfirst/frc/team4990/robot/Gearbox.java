@@ -15,4 +15,5 @@ public class Gearbox {
 		this.motor1.setPower(speed);
 		this.motor2.setPower(speed);
 	}
+	
 }

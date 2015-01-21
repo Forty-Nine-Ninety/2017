@@ -4,10 +4,10 @@ public class Constants {
 	/*
 	 * units: feet
 	 */
-	public static final double robotWidth = 1;
+	 public static double robotWidth = 2;
 	
 	/*
 	 * units: feet
 	 */
-	public static final double maxTurnRadius = 1;
+	public static final double defaultMaxTurnRadius = 1.0;
 }

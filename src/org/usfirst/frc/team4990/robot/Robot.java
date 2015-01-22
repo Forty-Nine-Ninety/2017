@@ -29,6 +29,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	"bla"
     	this.logger = new Logger(new Dashboard());
     	this.prefs = Preferences.getInstance();
     	

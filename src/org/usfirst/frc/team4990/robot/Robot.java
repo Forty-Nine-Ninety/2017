@@ -63,11 +63,23 @@ public class Robot extends IterativeRobot {
         this.logger.profileDriveTrain(this.driveTrain);
     }
     
+    private double currPower = -1.0;
+    
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	
+    	if (this.currPower <= 1.0) {
+	    	this.driveTrain.setLeftSpeed(this.currPower);
+	    	this.driveTrain.setRightSpeed(this.currPower);
+	    	
+	    	double leftVel = this.driveTrain.getLeftVelocity();
+	    	double rightVel = this.driveTrain.getRightVelocity();
+	    	
+	    	System.out.println(this.currPower + "; " + leftVel + "; " + rightVel);
+	    	
+	    	this.currPower += 0.01;
+    	}
     }
     
 }

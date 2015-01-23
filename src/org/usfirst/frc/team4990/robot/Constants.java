@@ -10,4 +10,14 @@ public class Constants {
 	 * units: feet
 	 */
 	public static final double defaultMaxTurnRadius = 1.0;
+	
+	/*
+	 * units: feet/s
+	 */
+	public static final double gearboxEncoderMinRate = 0.0;
+	
+	/*
+	 * units: 
+	 */
+	public static final int gearboxEncoderSamplesToAvg = 1;
 }

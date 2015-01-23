@@ -39,4 +39,25 @@ public class DriveTrain {
 	public double getRightSetSpeed() {
 		return this.rightSetSpeed;
 	}
+	
+	public double getLeftDistanceTraveled() {
+		return this.leftGearbox.getDistanceTraveled();
+	}
+	
+	public double getRightDistanceTraveled() {
+		return this.rightGearbox.getDistanceTraveled();
+	}
+	
+	public double getLeftVelocity() {
+		return this.leftGearbox.getCurrentVelocity();
+	}
+	
+	public double getRightVelocity() {
+		return this.rightGearbox.getCurrentVelocity();
+	}
+	
+	public void resetDistanceTraveled() {
+		this.leftGearbox.resetDistanceTraveled();
+		this.rightGearbox.resetDistanceTraveled();
+	}
 }

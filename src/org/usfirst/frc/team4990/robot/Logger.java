@@ -12,5 +12,8 @@ public class Logger {
 	public void profileDriveTrain(DriveTrain driveTrain) {
 		this.dashboard.sendValue("leftSetSpeed", driveTrain.getLeftSetSpeed());
 		this.dashboard.sendValue("rightSetSpeed", driveTrain.getRightSetSpeed());
+		
+		this.dashboard.sendValue("leftSpeed", driveTrain.getLeftVelocity());
+		this.dashboard.sendValue("rightSpeed", driveTrain.getRightVelocity());
 	}
 }

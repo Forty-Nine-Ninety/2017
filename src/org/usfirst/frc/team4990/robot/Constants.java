@@ -16,8 +16,5 @@ public class Constants {
 	 */
 	public static final double gearboxEncoderMinRate = 0.0;
 	
-	/*
-	 * units: 
-	 */
 	public static final int gearboxEncoderSamplesToAvg = 1;
 }

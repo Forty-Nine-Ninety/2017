@@ -32,6 +32,7 @@ public class DriveTrain {
 		this.rightGearbox.setSpeed(-this.rightSetSpeed);
 	}
 	
+	//TODO: figure out how to scale PWM value to velocity
 	public double getLeftSetSpeed() {
 		return this.leftSetSpeed;
 	}

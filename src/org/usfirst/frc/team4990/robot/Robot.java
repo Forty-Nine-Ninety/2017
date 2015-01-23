@@ -16,14 +16,13 @@ import org.usfirst.frc.team4990.robot.subsystems.motors.TalonMotorController;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	Preferences prefs;
 	private Logger logger;
 	
 	private F310Gamepad gamepad;
 	private DriveTrain driveTrain;
 	
 	private TeleopDriveTrainController teleopDriveTrainController;
-	
-	Preferences prefs;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -59,7 +58,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         this.teleopDriveTrainController.updateDriveTrainState();
+        
         this.driveTrain.update();
+        
         this.logger.profileDriveTrain(this.driveTrain);
     }
     

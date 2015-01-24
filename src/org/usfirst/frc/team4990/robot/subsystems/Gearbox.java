@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4990.robot.subsystems;
 
+import org.usfirst.frc.team4990.robot.Constants;
 import org.usfirst.frc.team4990.robot.subsystems.motors.Motor;
 
 import edu.wpi.first.wpilibj.Encoder;

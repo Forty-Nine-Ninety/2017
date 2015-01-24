@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4990.robot.subsystems;
 
+import org.usfirst.frc.team4990.robot.subsystems.Gearbox.RobotSide;
 import org.usfirst.frc.team4990.robot.subsystems.motors.Motor;
 
 public class DriveTrain {
@@ -9,9 +10,11 @@ public class DriveTrain {
 	private Gearbox rightGearbox;
 	private double rightSetSpeed;
 	
-	public DriveTrain(Motor leftMotor1, Motor leftMotor2, Motor rightMotor1, Motor rightMotor2) {
-		this.leftGearbox = new Gearbox(leftMotor1, leftMotor2);
-		this.rightGearbox = new Gearbox(rightMotor1, rightMotor2);
+	public DriveTrain(Motor leftMotor1, Motor leftMotor2, Motor rightMotor1, Motor rightMotor2,
+						int leftEncoderChannelA, int leftEncoderChannelB, 
+						int rightEncoderChannelA, int rightEncoderChannelB) {
+		this.leftGearbox = new Gearbox(leftMotor1, leftMotor2, leftEncoderChannelA, leftEncoderChannelB, Gearbox.RobotSide.Left);
+		this.rightGearbox = new Gearbox(rightMotor1, rightMotor2, rightEncoderChannelA, rightEncoderChannelB, Gearbox.RobotSide.Right);
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {		

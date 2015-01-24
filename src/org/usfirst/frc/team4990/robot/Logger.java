@@ -17,11 +17,9 @@ public class Logger {
 		
 		this.dashboard.sendValue("leftSpeed", driveTrain.getLeftVelocity());
 		this.dashboard.sendValue("rightSpeed", driveTrain.getRightVelocity());
-	}
-	
-	public void profileEncoderSpeed(Gearbox gearbox){
-		this.dashboard.sendValue("encoderDistance", gearbox.getDistanceTraveled());
-		this.dashboard.sendValue("encoderVelocity", gearbox.getCurrentVelocity());
+		
+		this.dashboard.sendValue("leftDistanceTraveled", driveTrain.getLeftDistanceTraveled());
+		this.dashboard.sendValue("rightDistanceTraveled", driveTrain.getLeftDistanceTraveled());
 	}
 	
 }

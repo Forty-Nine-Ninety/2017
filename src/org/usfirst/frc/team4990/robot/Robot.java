@@ -38,7 +38,8 @@ public class Robot extends IterativeRobot {
     		new TalonMotorController(0),
     		new TalonMotorController(1),
     		new TalonMotorController(2),
-    		new TalonMotorController(3));
+    		new TalonMotorController(3),
+    		0, 1, 2, 3);
     	
     	this.teleopDriveTrainController = new TeleopDriveTrainController(
     		this.gamepad, 

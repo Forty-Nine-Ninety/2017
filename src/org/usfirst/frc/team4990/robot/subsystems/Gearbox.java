@@ -2,6 +2,8 @@ package org.usfirst.frc.team4990.robot.subsystems;
 
 import org.usfirst.frc.team4990.robot.subsystems.motors.Motor;
 
+import edu.wpi.first.wpilibj.Encoder;
+
 public class Gearbox {
 	private Motor motor1;
 	private Motor motor2;

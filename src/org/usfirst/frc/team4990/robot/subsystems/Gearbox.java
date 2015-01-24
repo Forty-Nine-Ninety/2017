@@ -21,7 +21,7 @@ public class Gearbox {
 		this.encoder = new Encoder(encoderChannelA, encoderChannelB, robotSide == RobotSide.Left);
 		//TODO: implement gear ratio math to find out how far the wheel travels per pulse
 		this.encoder.setDistancePerPulse(1.0);
-		this.encoder.setMinRate(Contants.gearboxEncoderMinRate);
+		this.encoder.setMinRate(Constants.gearboxEncoderMinRate);
 		this.encoder.setSamplesToAverage(Constants.gearboxEncoderSamplesToAvg);
 	}
 	

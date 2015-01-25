@@ -4,34 +4,53 @@ import org.usfirst.frc.team4990.robot.Constants;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
 
+import java.util.*;
+
 public class TeleopDriveTrainController {
 	private F310Gamepad gamepad;
 	private DriveTrain driveTrain;
 	
+	private double lastThrottle;
+	private Date lastUpdate;
+	
 	private double maxTurnRadius;
 	private boolean reverseTurningFlipped;
+	private double accelerationTime;
+
 	
 	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped) {
 		this.gamepad = gamepad;
 		this.driveTrain = driveTrain;
 		
+		this.lastThrottle = 0;
+		this.lastUpdate = new Date();
+		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;
+		this.accelerationTime = 0.1;
+		
 	}
 	
 	public void updateDriveTrainState() {
-		double throttle = this.gamepad.getLeftJoystickY();
+		double throttleInput = this.gamepad.getLeftJoystickY();
 		double turnSteepness = this.gamepad.getRightJoystickX();
+		Date currentUpdate = new Date();
 		
-		if (throttle != 0 && turnSteepness != 0) {
+		double deltaThrottle = (currentUpdate.getTime()-lastUpdate.getTime())*(lastThrottle-throttleInput)/accelerationTime;
+		double throttle = lastThrottle + deltaThrottle;
+		
+		if (throttleInput != 0 && turnSteepness != 0) {
 			setArcTrajectory(throttle, turnSteepness);
-		} else if (throttle != 0 && turnSteepness == 0) {
+		} else if (throttleInput != 0 && turnSteepness == 0) {
 			setStraightTrajectory(throttle);
-		} else if (throttle == 0 && turnSteepness != 0) {
+		} else if (throttleInput == 0 && turnSteepness != 0) {
 			setTurnInPlaceTrajectory(turnSteepness);
 		} else {
 			this.driveTrain.setSpeed(0.0, 0.0);
 		}
+		
+		double lastThrottle = throttleInput;
+		Date lastUpdate = currentUpdate;
 	}
 	
 	public void setArcTrajectory(double throttle, double turnSteepness) {

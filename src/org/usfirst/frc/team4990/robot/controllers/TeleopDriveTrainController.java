@@ -37,10 +37,10 @@ public class TeleopDriveTrainController {
 		
 		Date currentUpdate = new Date();
 		
-		double acceleration = (lastThrottle-throttleInput)/accelerationTime;
-		double deltaTime = currentUpdate.getTime()-lastUpdate.getTime();
+		double acceleration = (lastThrottle - throttleInput) / accelerationTime;
+		double deltaTime = currentUpdate.getTime() - lastUpdate.getTime();
 		
-		double deltaThrottle = deltaTime*acceleration;
+		double deltaThrottle = deltaTime * acceleration;
 		double throttle = lastThrottle + deltaThrottle;
 		
 		if (throttleInput != 0 && turnSteepness != 0) {

@@ -34,9 +34,13 @@ public class TeleopDriveTrainController {
 	public void updateDriveTrainState() {
 		double throttleInput = this.gamepad.getLeftJoystickY();
 		double turnSteepness = this.gamepad.getRightJoystickX();
+		
 		Date currentUpdate = new Date();
 		
-		double deltaThrottle = (currentUpdate.getTime()-lastUpdate.getTime())*(lastThrottle-throttleInput)/accelerationTime;
+		double acceleration = (lastThrottle-throttleInput)/accelerationTime;
+		double deltaTime = currentUpdate.getTime()-lastUpdate.getTime();
+		
+		double deltaThrottle = deltaTime*acceleration;
 		double throttle = lastThrottle + deltaThrottle;
 		
 		if (throttleInput != 0 && turnSteepness != 0) {

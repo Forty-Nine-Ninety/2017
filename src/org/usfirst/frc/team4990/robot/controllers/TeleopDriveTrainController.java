@@ -15,7 +15,6 @@ public class TeleopDriveTrainController {
 	
 	private double maxTurnRadius;
 	private boolean reverseTurningFlipped;
-	private double accelerationTime;
 
 	
 	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped) {
@@ -27,7 +26,6 @@ public class TeleopDriveTrainController {
 		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;
-		this.accelerationTime = 0.1;
 		
 	}
 	
@@ -37,7 +35,7 @@ public class TeleopDriveTrainController {
 		
 		Date currentUpdate = new Date();
 		
-		double acceleration = (lastThrottle - throttleInput) / accelerationTime;
+		double acceleration = (lastThrottle - throttleInput) / Constants.accelerationTime;
 		double deltaTime = currentUpdate.getTime() - lastUpdate.getTime();
 		
 		double deltaThrottle = deltaTime * acceleration;

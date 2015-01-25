@@ -8,8 +8,14 @@ public class TeleopDriveTrainController {
 	private F310Gamepad gamepad;
 	private DriveTrain driveTrain;
 	
+	
+	
+	private double currentThrottleMultiplier = 1;
+	
 	private double maxTurnRadius;
 	private boolean reverseTurningFlipped;
+	
+	private double throttleMultiplierLOW = .4;
 	
 	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped) {
 		this.gamepad = gamepad;
@@ -19,9 +25,18 @@ public class TeleopDriveTrainController {
 		this.reverseTurningFlipped = reverseTurningFlipped;
 	}
 	
+	
 	public void updateDriveTrainState() {
-		double throttle = this.gamepad.getLeftJoystickY();
-		double turnSteepness = this.gamepad.getRightJoystickX();
+		boolean isPressedDPI = this.gamepad.getYButtonPressed();
+		
+		if (isPressedDPI && this.currentThrottleMultiplier == 1) {
+			this.currentThrottleMultiplier = this.throttleMultiplierLOW;
+		} else if (isPressedDPI && this.currentThrottleMultiplier == this.throttleMultiplierLOW){
+			this.currentThrottleMultiplier = 1;
+		}
+		
+		double throttle = this.gamepad.getLeftJoystickY() * this.currentThrottleMultiplier;
+		double turnSteepness = this.gamepad.getRightJoystickX() * this.currentThrottleMultiplier;
 		
 		if (throttle != 0 && turnSteepness != 0) {
 			setArcTrajectory(throttle, turnSteepness);

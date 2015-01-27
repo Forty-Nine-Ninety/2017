@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4990.robot;
 
 public class Constants {
+	
 	/*
 	 * units: feet
 	 */
@@ -14,7 +15,7 @@ public class Constants {
 	 * units: feet
 	 */
 	
-	public static final double accelerationTime = 100;
+	public static final double accelerationTime = 10000;
 	/*
 	 * units: milliseconds
 	 */

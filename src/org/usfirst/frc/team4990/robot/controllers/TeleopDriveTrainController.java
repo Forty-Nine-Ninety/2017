@@ -15,7 +15,6 @@ public class TeleopDriveTrainController {
 	
 	private double maxTurnRadius;
 	private boolean reverseTurningFlipped;
-
 	
 	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped) {
 		this.gamepad = gamepad;
@@ -26,7 +25,6 @@ public class TeleopDriveTrainController {
 		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;
-		
 	}
 	
 	public void updateDriveTrainState() {
@@ -35,24 +33,22 @@ public class TeleopDriveTrainController {
 		
 		Date currentUpdate = new Date();
 		
-		double acceleration = (lastThrottle - throttleInput) / Constants.accelerationTime;
+		double acceleration = (throttleInput - this.lastThrottle) / Constants.accelerationTime;
 		double deltaTime = currentUpdate.getTime() - lastUpdate.getTime();
 		
 		double deltaThrottle = deltaTime * acceleration;
-		double throttle = lastThrottle + deltaThrottle;
+		double throttle = this.lastThrottle + deltaThrottle;
 		
 		if (throttleInput != 0 && turnSteepness != 0) {
 			setArcTrajectory(throttle, turnSteepness);
-		} else if (throttleInput != 0 && turnSteepness == 0) {
-			setStraightTrajectory(throttle);
 		} else if (throttleInput == 0 && turnSteepness != 0) {
 			setTurnInPlaceTrajectory(turnSteepness);
 		} else {
-			this.driveTrain.setSpeed(0.0, 0.0);
+			setStraightTrajectory(throttle);
 		}
 		
-		double lastThrottle = throttleInput;
-		Date lastUpdate = currentUpdate;
+		this.lastThrottle = throttle;
+		this.lastUpdate = currentUpdate;
 	}
 	
 	public void setArcTrajectory(double throttle, double turnSteepness) {

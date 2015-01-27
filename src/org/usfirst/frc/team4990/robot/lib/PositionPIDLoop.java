@@ -31,7 +31,7 @@ public class PositionPIDLoop {
 		this.goalAcc = goalAcc;
 	}
 	
-	public double getNextPower(double currPos) {
+	public double getNextVelocity(double currPos) {
 		double posError = this.goalPos - currPos;
 		
 		long dt = ((new Date()).getTime() - this.lastUpdate.getTime()) / 1000; //divide by 1000 to convert to seconds

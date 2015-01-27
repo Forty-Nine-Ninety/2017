@@ -20,7 +20,7 @@ public class MotionProfile {
 		this.timeOfDeccelerationStart = distanceToTravel / goalVelocity;
 	}
 	
-	public double distanceToTravel() {
+	public double getDistanceToTravel() {
 		return this.distanceToTravel;
 	}
 	

@@ -15,7 +15,7 @@ public class Constants {
 	 * units: feet
 	 */
 	
-	public static final double accelerationTime = 10000;
+	public static final double defaultAccelerationTime = 250;
 	/*
 	 * units: milliseconds
 	 */

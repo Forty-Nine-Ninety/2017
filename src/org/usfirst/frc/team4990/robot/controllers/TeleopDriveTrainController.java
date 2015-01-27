@@ -11,44 +11,71 @@ public class TeleopDriveTrainController {
 	private DriveTrain driveTrain;
 	
 	private double lastThrottle;
+	private double lastTurnSteepness;
 	private Date lastUpdate;
 	
 	private double maxTurnRadius;
 	private boolean reverseTurningFlipped;
+	private double accelerationTime;
 	
-	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped) {
+	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped, double accelerationTime) {
 		this.gamepad = gamepad;
 		this.driveTrain = driveTrain;
 		
 		this.lastThrottle = 0;
+		this.lastTurnSteepness = 0;
 		this.lastUpdate = new Date();
 		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;
+		this.accelerationTime = accelerationTime;
 	}
 	
 	public void updateDriveTrainState() {
 		double throttleInput = this.gamepad.getLeftJoystickY();
-		double turnSteepness = this.gamepad.getRightJoystickX();
+		double turnSteepnessInput = this.gamepad.getRightJoystickX();
 		
 		Date currentUpdate = new Date();
 		
-		double acceleration = (throttleInput - this.lastThrottle) / Constants.accelerationTime;
-		double deltaTime = currentUpdate.getTime() - lastUpdate.getTime();
+		double throttle = getNextThrottle(
+				throttleInput, 
+				this.lastThrottle, 
+				this.lastUpdate, 
+				currentUpdate, 
+				this.accelerationTime);
 		
-		double deltaThrottle = deltaTime * acceleration;
-		double throttle = this.lastThrottle + deltaThrottle;
+		double turnSteepness = getNextThrottle(
+				turnSteepnessInput,
+				this.lastTurnSteepness,
+				this.lastUpdate,
+				currentUpdate,
+				this.accelerationTime);
 		
-		if (throttleInput != 0 && turnSteepness != 0) {
-			setArcTrajectory(throttle, turnSteepness);
-		} else if (throttleInput == 0 && turnSteepness != 0) {
-			setTurnInPlaceTrajectory(turnSteepness);
-		} else {
+		if (throttleInput != 0 && turnSteepnessInput != 0) {
+			setArcTrajectory(throttle, turnSteepnessInput);
+		} else if (throttleInput != 0 && turnSteepnessInput == 0) { 
 			setStraightTrajectory(throttle);
+		} else if (throttleInput == 0 && turnSteepnessInput != 0) {
+			setTurnInPlaceTrajectory(turnSteepness);
+				//robot was last driving straight
+		} else if (this.lastTurnSteepness == 0) {
+			setStraightTrajectory(throttle);
+				//robot was last turning in place
+		} else {
+			setTurnInPlaceTrajectory(turnSteepness);
 		}
 		
 		this.lastThrottle = throttle;
+		this.lastTurnSteepness = turnSteepness;
 		this.lastUpdate = currentUpdate;
+	}
+	
+	public double getNextThrottle(double throttleInput, double lastThrottle, Date lastUpdate, Date currentUpdate, double accelerationTime) {
+		double acceleration = (throttleInput - lastThrottle) / accelerationTime;
+		double deltaTime = currentUpdate.getTime() - lastUpdate.getTime();
+		
+		double deltaThrottle = deltaTime * acceleration;
+		return lastThrottle + deltaThrottle;
 	}
 	
 	public void setArcTrajectory(double throttle, double turnSteepness) {

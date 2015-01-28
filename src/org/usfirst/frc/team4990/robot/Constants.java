@@ -10,4 +10,9 @@ public class Constants {
 	 * units: feet
 	 */
 	public static final double defaultMaxTurnRadius = 1.0;
+	
+	/*
+	 * units: milliseconds
+	 */
+	public static final int millisecondsPerCycle = 20;
 }

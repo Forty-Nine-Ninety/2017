@@ -3,13 +3,13 @@ package org.usfirst.frc.team4990.robot;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.Gearbox;
 
-
 public class Logger {
 	private Dashboard dashboard;
 	
-	public Logger(Dashboard dashboard) {
+	public Logger(Dashboard dashboard, String path) {
 		this.dashboard = dashboard;
 	}
+	
 	
 	public void profileDriveTrain(DriveTrain driveTrain) {
 		this.dashboard.sendValue("leftSetSpeed", driveTrain.getLeftSetSpeed());

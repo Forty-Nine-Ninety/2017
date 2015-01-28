@@ -20,7 +20,9 @@ public class TeleopDriveTrainController {
 	}
 	
 	public void updateDriveTrainState() {
+		//throttle is to Left Joystick. Forwards and Backwards
 		double throttle = this.gamepad.getLeftJoystickY();
+		//turnSteepness is to Right Joystick. Changes Direction. 
 		double turnSteepness = this.gamepad.getRightJoystickX();
 		
 		if (throttle != 0 && turnSteepness != 0) {
@@ -41,9 +43,17 @@ public class TeleopDriveTrainController {
 		/* the robot should turn to the left, so left wheel is on the inside
 		 * of the turn, and the right wheel is on the outside of the turn
 		 */
-		if ((turnSteepness < 0 && throttle > 0) || (turnSteepness > 0 && throttle < 0)) {
+		if ((turnSteepness < 0 && throttle > 0)) {
 			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
 			rightWheelSpeed = throttle;
+			
+		}
+		
+		//if statement to reverse directions going backwards?
+		//probably should check if this works
+		if((turnSteepness > 0 && throttle < 0)){
+			rightWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
+			leftWheelSpeed = throttle;
 		}
 		
 		this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);

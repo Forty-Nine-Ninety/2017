@@ -10,41 +10,67 @@ public class TeleopDriveTrainController {
 	private F310Gamepad gamepad;
 	private DriveTrain driveTrain;
 	
-	private double lastThrottle;
-	private double lastTurnSteepness;
+	private double lastThrottle = 0;
+	private double lastTurnSteepness = 0;
 	private Date lastUpdate;
 	
-	private double maxTurnRadius;
-	private boolean reverseTurningFlipped;
-	private double accelerationTime;
+	private double currentThrottleMultiplier = 1;
+	private int cyclesSinceLastToggle = 0;
 	
-	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped, double accelerationTime) {
+	private final double maxTurnRadius;
+	private final boolean reverseTurningFlipped;
+	private final double accelerationTime;
+	private final double lowThrottleMultiplier;
+	private final int cyclesPerToggle;
+	
+	public TeleopDriveTrainController(
+			F310Gamepad gamepad, 
+			DriveTrain driveTrain, 
+			double maxTurnRadius, 
+			boolean reverseTurningFlipped,
+			double accelerationTime,
+			double lowThrottleMultiplier,
+			int timeUntilNextToggle) {
 		this.gamepad = gamepad;
 		this.driveTrain = driveTrain;
 		
-		this.lastThrottle = 0;
-		this.lastTurnSteepness = 0;
 		this.lastUpdate = new Date();
 		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;
 		this.accelerationTime = accelerationTime;
+		this.lowThrottleMultiplier = lowThrottleMultiplier;
+		this.cyclesPerToggle = timeUntilNextToggle / Constants.millisecondsPerCycle;
 	}
 	
 	public void updateDriveTrainState() {
+		boolean dpiTogglePressed = this.gamepad.getYButtonPressed();
+		
+		if (dpiTogglePressed && this.cyclesSinceLastToggle >= this.cyclesPerToggle) {
+			if (this.currentThrottleMultiplier == 1) {
+				this.currentThrottleMultiplier = this.lowThrottleMultiplier;
+			} else if (this.currentThrottleMultiplier == this.lowThrottleMultiplier){
+				this.currentThrottleMultiplier = 1;
+			}
+			
+			this.cyclesSinceLastToggle = 0;
+		} else if (dpiTogglePressed && this.cyclesSinceLastToggle < this.cyclesPerToggle) {
+			this.cyclesSinceLastToggle++;
+		}
+		
 		double throttleInput = this.gamepad.getLeftJoystickY();
 		double turnSteepnessInput = this.gamepad.getRightJoystickX();
 		
 		Date currentUpdate = new Date();
 		
-		double throttle = getNextThrottle(
+		double throttle = this.currentThrottleMultiplier * getNextThrottle(
 				throttleInput, 
 				this.lastThrottle, 
 				this.lastUpdate, 
 				currentUpdate, 
 				this.accelerationTime);
 		
-		double turnSteepness = getNextThrottle(
+		double turnSteepness = this.currentThrottleMultiplier * getNextThrottle(
 				turnSteepnessInput,
 				this.lastTurnSteepness,
 				this.lastUpdate,

@@ -16,8 +16,9 @@ public class Constants {
 	 */
 	
 	public static final double defaultAccelerationTime = 250;
+	
 	/*
 	 * units: milliseconds
 	 */
-	
+	public static final int millisecondsPerCycle = 20;
 }

@@ -63,15 +63,15 @@ public class TeleopDriveTrainController {
 		
 		Date currentUpdate = new Date();
 		
-		double throttle = this.currentThrottleMultiplier * getNextThrottle(
-				throttleInput, 
+		double throttle = getNextThrottle(
+				throttleInput * this.currentThrottleMultiplier, 
 				this.lastThrottle, 
 				this.lastUpdate, 
 				currentUpdate, 
 				this.accelerationTime);
 		
-		double turnSteepness = this.currentThrottleMultiplier * getNextThrottle(
-				turnSteepnessInput,
+		double turnSteepness = getNextThrottle(
+				turnSteepnessInput * this.currentThrottleMultiplier,
 				this.lastTurnSteepness,
 				this.lastUpdate,
 				currentUpdate,

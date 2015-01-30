@@ -42,31 +42,31 @@ public class F310Gamepad extends Joystick {
 	}
 	
 	public double getRightJoystickX() {
-		return this.getRawAxis(2);
+		return this.getRawAxis(4);
 	}
 	
 	public double getRightJoystickY() {
-		return this.getRawAxis(3);
+		return this.getRawAxis(5);
 	}
 
 	public boolean getRightJoystickPressed() {
 		return this.getRawButton(12);
 	}
 	
-	public boolean getXButtonPressed() {
+	public boolean getAButtonPressed() {
 		return this.getRawButton(1);
 	}
 	
-	public boolean getAButtonPressed() {
-		return this.getRawButton(2);
-	}
-	
 	public boolean getBButtonPressed() {
-		return this.getRawButton(3);
+		return this.getRawButton(2);
 	}
 	
 	public boolean getYButtonPressed() {
 		return this.getRawButton(4);
+	}
+	
+	public boolean getXButtonPressed() {
+		return this.getRawButton(3);
 	}
 	
 	public boolean getLeftBumperPressed() {
@@ -78,10 +78,10 @@ public class F310Gamepad extends Joystick {
 	}
 	
 	public boolean getLeftTriggerPressed() {
-		return this.getRawButton(7);
+		return this.getRawAxis(2) == 1.0;
 	}
 	
 	public boolean getRightTriggerPressed() {
-		return this.getRawButton(8);
+		return this.getRawAxis(3) == 1.0;
 	}
 }

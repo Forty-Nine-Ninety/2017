@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
     	this.logger = new Logger(new Dashboard());
     	this.prefs = Preferences.getInstance();
     	
-    	this.gamepad = new F310Gamepad(0);
+    	this.gamepad = new F310Gamepad(1);
     	
     	this.driveTrain = new DriveTrain( 
     		new TalonMotorController(0),

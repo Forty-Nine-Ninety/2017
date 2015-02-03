@@ -51,11 +51,15 @@ public class TeleopDriveTrainController {
 		
 		//if statement to reverse directions going backwards?
 		//probably should check if this works
-		if((turnSteepness > 0 && throttle < 0)){
+		if((turnSteepness > 0 && throttle < 0) && Robot.teleopDriveTrainController.isTurningReversed()){
 			rightWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
 			leftWheelSpeed = throttle;
 		}
-		
+		//runs if reversed is not enabled
+		if((turnSteepness > 0 && throttle < 0) && !Robot.teleopDriveTrainController.isTurningReversed()){
+			rightWheelSpeed = throttle;
+			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
+		}
 		this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);
 	}
 	

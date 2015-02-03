@@ -21,7 +21,7 @@ public class Logger {
 		this.dashboard.sendValue("rightSpeed", driveTrain.getRightVelocity());
 		
 		this.dashboard.sendValue("leftDistanceTraveled", driveTrain.getLeftDistanceTraveled());
-		this.dashboard.sendValue("rightDistanceTraveled", driveTrain.getRightDistanceTraveled());
+		this.dashboard.sendValue("rightDistanceTraveled", driveTrain.getLeftDistanceTraveled());
 	}
 	
 }

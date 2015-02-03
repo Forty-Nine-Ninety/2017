@@ -9,8 +9,6 @@ public class Gearbox {
 	private Motor motor1;
 	private Motor motor2;
 	
-	private RobotSide robotSide;
-	
 	private Encoder encoder;
 	
 	public enum RobotSide {
@@ -20,13 +18,12 @@ public class Gearbox {
 	public Gearbox(Motor motor1, Motor motor2, int encoderChannelA, int encoderChannelB, RobotSide robotSide) {
 		this.motor1 = motor1;
 		this.motor2 = motor2;
-		
-		this.robotSide = robotSide;
-		
-		this.encoder = new Encoder(encoderChannelA, encoderChannelB, robotSide == RobotSide.Right, Encoder.EncodingType.k2X);
+																	//not sure if left or right should be reversed
+		this.encoder = new Encoder(encoderChannelA, encoderChannelB, robotSide == RobotSide.Left);
 		//TODO: implement gear ratio math to find out how far the wheel travels per pulse
 		
-		this.encoder.setDistancePerPulse(Constants.feetPerWheelRevolution / Constants.pulsesPerRevolution);
+		double outputToEncoderGearRatio = Constants.numTeethOnEncoderShaftGear / Constants.numTeethOnOutputShaftGear;
+		this.encoder.setDistancePerPulse(outputToEncoderGearRatio * Constants.feetPerWheelRevolution);
 		this.encoder.setMinRate(Constants.gearboxEncoderMinRate);
 		this.encoder.setSamplesToAverage(Constants.gearboxEncoderSamplesToAvg);
 	}
@@ -40,9 +37,6 @@ public class Gearbox {
 	 * returned in ft
 	 */
 	public double getDistanceTraveled() {
-		//System.out.println("encoder distance traveled:" + this.encoder.getDistance());
-		//System.out.println(this.robotSide + " encoder velocity:" + this.encoder.getRate());
-		//System.out.println("encoder raw count:" + this.encoder.getRaw());
 		return this.encoder.getDistance();
 	}
 	

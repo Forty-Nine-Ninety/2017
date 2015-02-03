@@ -46,7 +46,8 @@ public class Robot extends IterativeRobot {
     		this.driveTrain, 
     		//sets preferences
     		this.prefs.getDouble("maxTurnRadius", Constants.defaultMaxTurnRadius),
-    		this.prefs.getBoolean("reverseTurningFlipped", true));
+    		this.prefs.getBoolean("reverseTurningFlipped", true);
+    		this.prefs.getBoolean("printToFile", true);
     }
 
     /**

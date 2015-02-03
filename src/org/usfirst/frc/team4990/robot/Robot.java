@@ -34,10 +34,10 @@ public class Robot extends IterativeRobot {
     	this.gamepad = new F310Gamepad(1);
     	
     	this.driveTrain = new DriveTrain( 
-    		new TalonMotorController(0),
-    		new TalonMotorController(1),
-    		new TalonMotorController(2),
-    		new TalonMotorController(3),
+    		new TalonMotorController(6),
+    		new TalonMotorController(7),
+    		new TalonMotorController(4),
+    		new TalonMotorController(5),
     		0, 1, 2, 3);
     	
     	this.teleopDriveTrainController = new TeleopDriveTrainController(
@@ -68,23 +68,57 @@ public class Robot extends IterativeRobot {
         this.logger.profileDriveTrain(this.driveTrain);
     }
     
-    private double currPower = -1.0;
+    private int stage = 0;
+    private double currPower = 0.0;
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	if (this.currPower <= 1.0) {
-	    	this.driveTrain.setLeftSpeed(this.currPower);
-	    	this.driveTrain.setRightSpeed(this.currPower);
-	    	
-	    	double leftVel = this.driveTrain.getLeftVelocity();
-	    	double rightVel = this.driveTrain.getRightVelocity();
-	    	
-	    	System.out.println(this.currPower + "; " + leftVel + "; " + rightVel);
-	    	
-	    	this.currPower += 0.01;
+    	/*boolean pressed = this.gamepad.getAButtonPressed();
+    	
+    	if (pressed) {
+    		this.driveTrain.setSpeed(0.1, 0.1);
+    	} else {
+    		this.driveTrain.setSpeed(0.0, 0.0);
     	}
+    	
+    	this.driveTrain.update();
+    	this.logger.profileDriveTrain(this.driveTrain);*/
+    	double change = 0;
+    	switch (stage) {
+    	case 0:
+    		if (currPower <= 1.0) {
+        		this.driveTrain.setSpeed(currPower, currPower);
+        		change = 0.01;
+        	} else if (currPower > 1.00) {
+        		stage = 1;
+        	}
+    		break;
+    	case 1:
+    		if (currPower >= -1.0) {
+    			this.driveTrain.setSpeed(currPower, currPower);
+        		change = -0.01;
+    		} else if (currPower < -1.0) {
+    			stage = 2;
+    		}
+    		break;
+    	case 2:
+    		if (currPower <= 1.0) {
+        		this.driveTrain.setSpeed(currPower, currPower);
+        		change = 0.01;
+        	} else if (currPower > 0.0) {
+        		stage = 3;
+        	}
+    		break;
+    	default:
+    		this.driveTrain.setSpeed(0.0, 0.0);
+    		break;
+    	}
+    	
+    	this.driveTrain.update();
+    	System.out.println(currPower + ", " + this.driveTrain.getLeftVelocity() + ", " + this.driveTrain.getRightVelocity());
+    	currPower += change;
     }
     
 }

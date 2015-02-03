@@ -10,6 +10,7 @@ public class TeleopDriveTrainController {
 	
 	private double maxTurnRadius;
 	private boolean reverseTurningFlipped;
+	private boolean printToFile;
 	
 	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped) {
 		this.gamepad = gamepad;
@@ -82,6 +83,9 @@ public class TeleopDriveTrainController {
 	}
 	public boolean isTurningReversed(){
 	//basic get method for reversed turning
-		return reverseTurningFlipped;
+		return this.reverseTurningFlipped;
+	}
+	public boolean printToFile(){
+		return this.printToFile;
 	}
 }

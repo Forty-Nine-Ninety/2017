@@ -11,7 +11,7 @@ public class WriteToText {
 		this.writetotext = write;
 	}
 	private void write(String text) throws FileNotFoundException{
-		File file = new Printwriter(new Filewriter("C:/Users/student/Desktop/test.txt"));
+		Printwriter print = new Printwriter(new Filewriter("C:/Users/student/Desktop/test.txt"));
 		print.println("test");
 		print.close();
 		

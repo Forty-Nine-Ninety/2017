@@ -136,4 +136,10 @@ public class TeleopDriveTrainController {
 		 */
 		this.driveTrain.setSpeed(turningSpeed, -turningSpeed);
 	}
+	public boolean isTurningReversed(){
+	//basic get method for reversed turning
+		return reverseTurningFlipped;
+	}
+	
+}
 }

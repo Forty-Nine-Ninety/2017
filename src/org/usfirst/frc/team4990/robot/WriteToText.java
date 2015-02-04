@@ -10,10 +10,20 @@ public class WriteToText {
 		this.pathtotext = path;
 		this.writetotext = write;
 	}
-	private void write(String text) throws FileNotFoundException{
-		Printwriter print = new Printwriter(new Filewriter("C:/Users/student/Desktop/test.txt"));
+	private void write(String text){
+		try{
+		File file = new File("/usr/games/log.txt");
+		if(!file.exists()){
+			file.createNewFile();
+			}
+		PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
 		print.println("test");
 		print.close();
+		}catch(IOException ioe){
+			System.out.println("Exception occurred");
+			ioe.printStackTrace();
+		}
 		
 	}
+}
 }

@@ -29,8 +29,10 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	this.logger = new Logger(new Dashboard());
     	this.prefs = Preferences.getInstance();
+    	this.logger = new Logger(
+    			//prefs for logger
+    			this.prefs.getString("pathToFile", "/usr/games"));
     	
     	this.gamepad = new F310Gamepad(0);
     	
@@ -44,10 +46,12 @@ public class Robot extends IterativeRobot {
     	this.teleopDriveTrainController = new TeleopDriveTrainController(
     		this.gamepad, 
     		this.driveTrain, 
-    		//sets preferences
+    		//sets preferences for train controller
     		this.prefs.getDouble("maxTurnRadius", Constants.defaultMaxTurnRadius),
-    		this.prefs.getBoolean("reverseTurningFlipped", true);
-    		this.prefs.getBoolean("printToFile", true);
+    		this.prefs.getBoolean("turningReversed", false));
+    	
+    	//checks and runs the start up text for logger
+    	this.logger.logInit();
     }
 
     /**
@@ -63,7 +67,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         this.teleopDriveTrainController.updateDriveTrainState();
         this.driveTrain.update();
-        this.logger.profileDriveTrain(this.driveTrain);
+        this.logger.toFile(this.driveTrain);
     }
     
     private double currPower = -1.0;

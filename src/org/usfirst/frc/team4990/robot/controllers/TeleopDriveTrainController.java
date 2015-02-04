@@ -10,7 +10,6 @@ public class TeleopDriveTrainController {
 	
 	private double maxTurnRadius;
 	private boolean reverseTurningFlipped;
-	private boolean printToFile;
 	
 	public TeleopDriveTrainController(F310Gamepad gamepad, DriveTrain driveTrain, double maxTurnRadius, boolean reverseTurningFlipped) {
 		this.gamepad = gamepad;
@@ -52,12 +51,12 @@ public class TeleopDriveTrainController {
 		
 		//if statement to reverse directions going backwards?
 		//probably should check if this works
-		if((turnSteepness > 0 && throttle < 0) && Robot.teleopDriveTrainController.isTurningReversed()){
+		if((turnSteepness > 0 && throttle < 0) && reverseTurningFlipped){
 			rightWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
 			leftWheelSpeed = throttle;
 		}
 		//runs if reversed is not enabled
-		if((turnSteepness > 0 && throttle < 0) && !Robot.teleopDriveTrainController.isTurningReversed()){
+		if((turnSteepness > 0 && throttle < 0) && !reverseTurningFlipped){
 			rightWheelSpeed = throttle;
 			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
 		}
@@ -80,12 +79,5 @@ public class TeleopDriveTrainController {
 		 * since the right motor will spin in the opposite direction from the left
 		 */
 		this.driveTrain.setSpeed(turningSpeed, -turningSpeed);
-	}
-	public boolean isTurningReversed(){
-	//basic get method for reversed turning
-		return this.reverseTurningFlipped;
-	}
-	public boolean printToFile(){
-		return this.printToFile;
 	}
 }

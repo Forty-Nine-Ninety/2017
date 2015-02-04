@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4990.robot;
 
 import java.io.*;
-//a basic to setting up writing to text;
+//a basic thing to write and append text
 public class WriteToText {
 	private String pathtotext;
 	private boolean writetotext;
@@ -10,9 +10,9 @@ public class WriteToText {
 		this.pathtotext = path;
 		this.writetotext = write;
 	}
-	private void write(String text){
+	private void write(String path){
 		try{
-		File file = new File("/usr/games/log.txt");
+		File file = new File(path);
 		if(!file.exists()){
 			file.createNewFile();
 			}
@@ -25,5 +25,4 @@ public class WriteToText {
 		}
 		
 	}
-}
 }

@@ -13,26 +13,6 @@ public class Logger {
 		this.path = path;
 	}
 	
-	/*
-	private Dashboard dashboard;
-	
-	public Logger(Dashboard dashboard, String path) {
-		this.dashboard = dashboard;
-	}
-	
-	
-	public void profileDriveTrain(DriveTrain driveTrain) {
-		this.dashboard.sendValue("leftSetSpeed", driveTrain.getLeftSetSpeed());
-		this.dashboard.sendValue("rightSetSpeed", driveTrain.getRightSetSpeed());
-		
-		this.dashboard.sendValue("leftSpeed", driveTrain.getLeftVelocity());
-		this.dashboard.sendValue("rightSpeed", driveTrain.getRightVelocity());
-		
-		this.dashboard.sendValue("leftDistanceTraveled", driveTrain.getLeftDistanceTraveled());
-		this.dashboard.sendValue("rightDistanceTraveled", driveTrain.getLeftDistanceTraveled());
-	}
-	*/
-	
 	public void toFile(DriveTrain driveTrain){
 		//runs write method and prints the values we want
 		write(path, "Left Speed", String.valueOf(driveTrain.getLeftSetSpeed()));
@@ -52,7 +32,7 @@ public class Logger {
 			file.createNewFile();
 			}
 		PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
-		print.println(getDate() + name + ": " + text);
+		print.println(getDate() + " " + name + ": " + text);
 		print.close();
 		}catch(IOException ioe){
 			System.out.println("Exception occurred");

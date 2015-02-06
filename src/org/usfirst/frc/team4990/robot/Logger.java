@@ -31,6 +31,7 @@ public class Logger {
 		if(!file.exists()){
 			file.createNewFile();
 			}
+		
 		PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
 		print.println(getDate() + " " + name + ": " + text);
 		print.close();

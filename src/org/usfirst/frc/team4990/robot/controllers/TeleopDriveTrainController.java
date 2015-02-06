@@ -43,7 +43,9 @@ public class TeleopDriveTrainController {
 		/* the robot should turn to the left, so left wheel is on the inside
 		 * of the turn, and the right wheel is on the outside of the turn
 		 */
-		if ((turnSteepness < 0 && throttle > 0)) {
+		
+		//goes forward and also runs this if reverse turning disabled
+		if ((turnSteepness < 0 && throttle > 0)||((turnSteepness > 0 && throttle < 0) && !reverseTurningFlipped)) {
 			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
 			rightWheelSpeed = throttle;
 			
@@ -55,11 +57,7 @@ public class TeleopDriveTrainController {
 			rightWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
 			leftWheelSpeed = throttle;
 		}
-		//runs if reversed is not enabled
-		if((turnSteepness > 0 && throttle < 0) && !reverseTurningFlipped){
-			rightWheelSpeed = throttle;
-			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
-		}
+		
 		this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);
 	}
 	

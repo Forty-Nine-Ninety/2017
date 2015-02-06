@@ -31,6 +31,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	this.prefs = Preferences.getInstance();
     	this.logger = new Logger(
+    			
     			//prefs for logger
     			this.prefs.getString("pathToFile", "/usr/games"));
     	
@@ -46,6 +47,7 @@ public class Robot extends IterativeRobot {
     	this.teleopDriveTrainController = new TeleopDriveTrainController(
     		this.gamepad, 
     		this.driveTrain, 
+    		
     		//sets preferences for train controller
     		this.prefs.getDouble("maxTurnRadius", Constants.defaultMaxTurnRadius),
     		this.prefs.getBoolean("turningReversed", false));

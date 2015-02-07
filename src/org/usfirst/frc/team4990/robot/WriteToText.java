@@ -12,9 +12,9 @@ public class WriteToText {
 	}
 	private void write(String text) throws FileNotFoundException{
 //temporary path. Going to change it later. Currently going to /usr/games
-		Printwriter print = new Printwriter(new Filewriter("/usr/games"));
-		print.println("test");
-		print.close();
+		//Printwriter print = new Printwriter(new Filewriter("/usr/games"));
+		//print.println("test");
+		//print.close();
 		
 	}
 }

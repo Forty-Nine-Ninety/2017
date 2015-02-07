@@ -34,10 +34,10 @@ public class Robot extends IterativeRobot {
     	this.gamepad = new F310Gamepad(1);
     	
     	this.driveTrain = new DriveTrain( 
-    		new TalonMotorController(6),
-    		new TalonMotorController(7),
-    		new TalonMotorController(4),
-    		new TalonMotorController(5),
+    		new TalonMotorController(0),
+    		new TalonMotorController(1),
+    		new TalonMotorController(2),
+    		new TalonMotorController(3),
     		0, 1, 2, 3);
     	
     	this.teleopDriveTrainController = new TeleopDriveTrainController(
@@ -75,16 +75,6 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	/*boolean pressed = this.gamepad.getAButtonPressed();
-    	
-    	if (pressed) {
-    		this.driveTrain.setSpeed(0.1, 0.1);
-    	} else {
-    		this.driveTrain.setSpeed(0.0, 0.0);
-    	}
-    	
-    	this.driveTrain.update();
-    	this.logger.profileDriveTrain(this.driveTrain);*/
     	double change = 0;
     	switch (stage) {
     	case 0:
@@ -107,7 +97,7 @@ public class Robot extends IterativeRobot {
     		if (currPower <= 1.0) {
         		this.driveTrain.setSpeed(currPower, currPower);
         		change = 0.01;
-        	} else if (currPower > 0.0) {
+        	} else if (currPower > 1.0) {
         		stage = 3;
         	}
     		break;

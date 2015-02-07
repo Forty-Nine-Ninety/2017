@@ -136,6 +136,4 @@ public class TeleopDriveTrainController {
 		 */
 		this.driveTrain.setSpeed(turningSpeed, -turningSpeed);
 	}
-	
-}
 }

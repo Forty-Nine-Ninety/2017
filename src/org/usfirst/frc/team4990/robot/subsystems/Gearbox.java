@@ -9,6 +9,8 @@ public class Gearbox {
 	private Motor motor1;
 	private Motor motor2;
 	
+	private RobotSide robotSide;
+	
 	private Encoder encoder;
 	
 	public enum RobotSide {
@@ -18,12 +20,12 @@ public class Gearbox {
 	public Gearbox(Motor motor1, Motor motor2, int encoderChannelA, int encoderChannelB, RobotSide robotSide) {
 		this.motor1 = motor1;
 		this.motor2 = motor2;
-																	//not sure if left or right should be reversed
-		this.encoder = new Encoder(encoderChannelA, encoderChannelB, robotSide == RobotSide.Left);
-		//TODO: implement gear ratio math to find out how far the wheel travels per pulse
 		
-		double outputToEncoderGearRatio = Constants.numTeethOnEncoderShaftGear / Constants.numTeethOnOutputShaftGear;
-		this.encoder.setDistancePerPulse(outputToEncoderGearRatio * Constants.feetPerWheelRevolution);
+		this.robotSide = robotSide;
+		
+		this.encoder = new Encoder(encoderChannelA, encoderChannelB, robotSide == RobotSide.Right, Encoder.EncodingType.k2X);
+		
+		this.encoder.setDistancePerPulse(Constants.feetPerWheelRevolution / Constants.pulsesPerRevolution);
 		this.encoder.setMinRate(Constants.gearboxEncoderMinRate);
 		this.encoder.setSamplesToAverage(Constants.gearboxEncoderSamplesToAvg);
 	}

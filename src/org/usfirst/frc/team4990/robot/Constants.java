@@ -24,7 +24,7 @@ public class Constants {
 	public static final int millisecondsPerCycle = 20;
 	
 	//TODO: figure out actual pulses per revolution and stop compensating by a factor of 2
-	public static final int pulsesPerRevolution = 500;
+	public static final int pulsesPerRevolution = 250;
 	/*
 	 * units: feet/s
 	 */

@@ -26,9 +26,12 @@ public class AutoDriveTrainController {
 	}
 	
 	public void updateDriveTrainState() {
-		MotionProfile.ProfileValues nextVelAndAcc = this.motionProfile.getProfileValuesAt(this.motionProfileStart.getTime());
+		long timeSinceStart = (new Date()).getTime() - this.motionProfileStart.getTime();
+		MotionProfile.ProfileValues nextVelAndAcc = this.motionProfile.getProfileValuesAt(timeSinceStart);
 		double nextVelocity = nextVelAndAcc.velocity, 
 			   nextAcceleration = nextVelAndAcc.acceleration;
+		
+		System.out.println(nextVelocity + "; " + nextAcceleration);
 		
 		/*
 		 * use of the left distance and velocity is arbitrary--in theory both sides should be 

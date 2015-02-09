@@ -17,7 +17,7 @@ public class MotionProfile {
 		this.acceleration = acceleration;
 		
 		this.timeToMaxVelocity = goalVelocity / acceleration;
-		this.timeOfDeccelerationStart = distanceToTravel / goalVelocity;
+		this.timeOfDeccelerationStart = distanceToTravel / goalVelocity * 1000;
 	}
 	
 	public double getDistanceToTravel() {
@@ -40,14 +40,17 @@ public class MotionProfile {
 	/*
 	 * time is in milliseconds
 	 */
-	public ProfileValues getProfileValuesAt(double time) {
+	public ProfileValues getProfileValuesAt(long time) {
 		if (time < this.timeToMaxVelocity) {
 			return new ProfileValues(this.acceleration * time, this.acceleration);
 		} else if (time >= this.timeToMaxVelocity && time < this.timeOfDeccelerationStart) {
 			return new ProfileValues(this.goalVelocity, 0);
-		} else {
+													//time to max vel is same as time to get to 0 vel
+		} else if (time <= this.timeOfDeccelerationStart + this.timeToMaxVelocity) {
 			double timeSinceDeccelerationStart = time - this.timeOfDeccelerationStart;
 			return new ProfileValues(this.goalVelocity - (this.acceleration * timeSinceDeccelerationStart), -this.acceleration);
+		} else {
+			return new ProfileValues(0, 0);
 		}
 	}
 }

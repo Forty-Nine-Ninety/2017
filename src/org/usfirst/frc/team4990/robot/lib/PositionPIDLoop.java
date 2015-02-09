@@ -34,12 +34,14 @@ public class PositionPIDLoop {
 	public double getNextVelocity(double currPos) {
 		double posError = this.goalPos - currPos;
 		
-		long dt = ((new Date()).getTime() - this.lastUpdate.getTime()) / 1000; //divide by 1000 to convert to seconds
-		double velocity = (currPos - this.lastPos) / dt;
+		double dt = ((new Date()).getTime() - this.lastUpdate.getTime()) / 1000.0; //divide by 1000 to convert to seconds
+		double velocity = dt != 0 ? (currPos - this.lastPos) / dt : 0;
 		double velError = this.goalVel - velocity;
 				
 		this.lastPos = currPos;
 		this.lastUpdate = new Date();
+		
+		System.out.println("currPos: " + currPos + "; posError: " + posError + "; dt: " + dt + "; velocity: " + velocity + "; velError: " + velError);
 		
 		return this.Kp * posError + Kd * velError + Kv * this.goalVel + Ka * this.goalAcc;
 	}

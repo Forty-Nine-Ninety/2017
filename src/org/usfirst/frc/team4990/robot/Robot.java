@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Preferences;
 
 import org.usfirst.frc.team4990.robot.controllers.AutoDriveTrainController;
 import org.usfirst.frc.team4990.robot.controllers.TeleopDriveTrainController;
+import org.usfirst.frc.team4990.robot.controllers.TeleopForkliftController;
 import org.usfirst.frc.team4990.robot.lib.MotionProfile;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
@@ -31,6 +32,7 @@ public class Robot extends IterativeRobot {
 	private AutoDriveTrainController autoDriveTrainController;
 	
 	private TeleopDriveTrainController teleopDriveTrainController;
+	private TeleopForkliftController teleopForkliftController;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -84,6 +86,11 @@ public class Robot extends IterativeRobot {
         		this.prefs.getDouble("smoothDriveAccTime", Constants.defaultAccelerationTime),
         		this.prefs.getDouble("lowThrottleMultiplier", .25),
         		this.prefs.getInt("timePerToggle", 150));
+    	
+    	this.teleopForkliftController = new TeleopForkliftController(
+    			this.forkliftGamepad, 
+    			this.forklift,
+    			this.prefs.getDouble("safetyElevatorPower", 0.2));
     }
     
     /**

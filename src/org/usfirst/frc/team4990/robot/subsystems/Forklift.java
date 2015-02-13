@@ -3,22 +3,22 @@ package org.usfirst.frc.team4990.robot.subsystems;
 import org.usfirst.frc.team4990.robot.subsystems.motors.Motor;
 
 public class Forklift {
-	private Motor elevatorMotor;
-	private double elevatorMotorSetPower;
+	private Elevator elevator;
+	private double elevatorSetPower;
 	
 	public Forklift(Motor elevatorMotor) {
-		this.elevatorMotor = elevatorMotor;
+		this.elevator = new Elevator(elevatorMotor);
 	}
 
 	public void setElevatorPower(double power) {
-		this.elevatorMotorSetPower = power;
+		this.elevatorSetPower = power;
 	}
 	
 	public double getElevatorsetPower() {
-		return this.elevatorMotorSetPower;
+		return this.elevatorSetPower;
 	}
 	
 	public void update() {
-		this.elevatorMotor.setPower(this.elevatorMotorSetPower);
+		this.elevator.setElevatorPower(this.elevatorSetPower);
 	}
 }

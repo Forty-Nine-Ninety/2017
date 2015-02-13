@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
     	this.logger = new Logger(
     			
     			//prefs for logger
-    			this.prefs.getString("pathToFile", "/usr/games"));
+    			"/home/lvuser/logs/log.txt");
     	
     	this.gamepad = new F310Gamepad(0);
     	

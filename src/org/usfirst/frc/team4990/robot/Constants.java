@@ -18,11 +18,6 @@ public class Constants {
 	
 	public static final double defaultAccelerationTime = 250;
 	
-	/*
-	 * units: milliseconds
-	 */
-	public static final int millisecondsPerCycle = 20;
-	
 	//TODO: figure out actual pulses per revolution and stop compensating by a factor of 2
 	public static final int pulsesPerRevolution = 250;
 	/*

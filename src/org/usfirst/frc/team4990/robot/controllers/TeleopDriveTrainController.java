@@ -17,13 +17,11 @@ public class TeleopDriveTrainController {
 	
 	private Toggle dpiToggle;
 	private double currentThrottleMultiplier = 1;
-	private int cyclesSinceLastToggle = 0;
 	
 	private final double maxTurnRadius;
 	private final boolean reverseTurningFlipped;
 	private final double accelerationTime;
 	private final double lowThrottleMultiplier;
-	private final int cyclesPerToggle;
 	
 	public TeleopDriveTrainController(
 			F310Gamepad gamepad, 
@@ -44,7 +42,6 @@ public class TeleopDriveTrainController {
 		this.reverseTurningFlipped = reverseTurningFlipped;
 		this.accelerationTime = accelerationTime;
 		this.lowThrottleMultiplier = lowThrottleMultiplier;
-		this.cyclesPerToggle = timeUntilNextToggle / Constants.millisecondsPerCycle;
 	}
 	
 	public void updateDriveTrainState() {

@@ -8,6 +8,7 @@ import org.usfirst.frc.team4990.robot.controllers.TeleopDriveTrainController;
 import org.usfirst.frc.team4990.robot.lib.MotionProfile;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
+import org.usfirst.frc.team4990.robot.subsystems.Forklift;
 import org.usfirst.frc.team4990.robot.subsystems.motors.TalonMotorController;
 
 /**
@@ -21,8 +22,11 @@ public class Robot extends IterativeRobot {
 	Preferences prefs;
 	private Logger logger;
 	
-	private F310Gamepad gamepad;
+	private F310Gamepad driveGamepad;
 	private DriveTrain driveTrain;
+	
+	private F310Gamepad forkliftGamepad;
+	private Forklift forklift;
 	
 	private AutoDriveTrainController autoDriveTrainController;
 	
@@ -35,7 +39,8 @@ public class Robot extends IterativeRobot {
     	this.logger = new Logger(new Dashboard());
     	this.prefs = Preferences.getInstance();
     	
-    	this.gamepad = new F310Gamepad(1);
+    	this.driveGamepad = new F310Gamepad(1);
+    	this.forkliftGamepad = new F310Gamepad(2);
     	
     	this.driveTrain = new DriveTrain( 
     		new TalonMotorController(0),
@@ -43,6 +48,9 @@ public class Robot extends IterativeRobot {
     		new TalonMotorController(2),
     		new TalonMotorController(3),
     		0, 1, 2, 3);
+    	
+    	this.forklift = new Forklift(
+    			new TalonMotorController(4));
     }
 
     public void autonomousInit() {
@@ -69,7 +77,7 @@ public class Robot extends IterativeRobot {
 
     public void teleopInit() {
     	this.teleopDriveTrainController = new TeleopDriveTrainController(
-        		this.gamepad, 
+        		this.driveGamepad, 
         		this.driveTrain, 
         		this.prefs.getDouble("maxTurnRadius", Constants.defaultMaxTurnRadius),
         		this.prefs.getBoolean("reverseTurningFlipped", true),

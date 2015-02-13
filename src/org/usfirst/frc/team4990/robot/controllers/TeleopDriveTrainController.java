@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4990.robot.controllers;
 
 import org.usfirst.frc.team4990.robot.Constants;
+import org.usfirst.frc.team4990.robot.lib.Toggle;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
 
@@ -14,6 +15,7 @@ public class TeleopDriveTrainController {
 	private double lastTurnSteepness = 0;
 	private Date lastUpdate;
 	
+	private Toggle dpiToggle;
 	private double currentThrottleMultiplier = 1;
 	private int cyclesSinceLastToggle = 0;
 	
@@ -36,6 +38,8 @@ public class TeleopDriveTrainController {
 		
 		this.lastUpdate = new Date();
 		
+		this.dpiToggle = new Toggle(timeUntilNextToggle);
+		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;
 		this.accelerationTime = accelerationTime;
@@ -46,16 +50,14 @@ public class TeleopDriveTrainController {
 	public void updateDriveTrainState() {
 		boolean dpiTogglePressed = this.gamepad.getYButtonPressed();
 		
-		if (dpiTogglePressed && this.cyclesSinceLastToggle >= this.cyclesPerToggle) {
-			if (this.currentThrottleMultiplier == 1) {
-				this.currentThrottleMultiplier = this.lowThrottleMultiplier;
-			} else if (this.currentThrottleMultiplier == this.lowThrottleMultiplier){
-				this.currentThrottleMultiplier = 1;
-			}
+		if (dpiTogglePressed) {
+			this.dpiToggle.toggle();
 			
-			this.cyclesSinceLastToggle = 0;
-		} else if (dpiTogglePressed && this.cyclesSinceLastToggle < this.cyclesPerToggle) {
-			this.cyclesSinceLastToggle++;
+			if (this.dpiToggle.isToggled()) {
+				this.currentThrottleMultiplier = this.lowThrottleMultiplier;
+			} else {
+				this.currentThrottleMultiplier = 1.0;
+			}
 		}
 		
 		double throttleInput = this.gamepad.getLeftJoystickY();

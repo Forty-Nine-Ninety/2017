@@ -31,6 +31,8 @@ public class Logger {
 		if(!file.exists()){
 			file.createNewFile();
 			}
+		//debugging
+		System.out.println(text);
 		
 		PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
 		print.println(getDate() + " " + name + ": " + text);
@@ -42,15 +44,27 @@ public class Logger {
 		
 	}
 	
+	private void read(String path) {
+		try{
+		BufferedReader br = new BufferedReader(new FileReader(path));
+		System.out.println(br);
+		br.close();
+		}catch(IOException ioe){
+			ioe.printStackTrace();
+		}
+		}
+		
+		
+	
 	private String getDate(){
-		DateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:SSS");
+		DateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss:SSS");
 		java.util.Date date = new java.util.Date();
 		
 		return dateformat.format(date);
 	}
 
 	public void logInit() {
-		//prints start up log init file!
-		write(path, "Startup", "Log system has started and loaded");
+		write(path, "asasd", "alkdsjflasdjflkasdfj");
+		read(path);
 	}
 }

@@ -13,12 +13,16 @@ public class Toggle {
 		this.timeLastToggled = new Date(java.lang.System.currentTimeMillis() - this.millisUntilNextToggle);
 	}
 	
-	public void toggle() {
+	public void setState(boolean newState) {
 		long timeSinceLastToggle = (new Date()).getTime() - this.timeLastToggled.getTime();
 		if (timeSinceLastToggle >= this.millisUntilNextToggle) {
-			this.toggleState = !this.toggleState;
+			this.toggleState = newState;
 			this.timeLastToggled = new Date();
 		}
+	}
+	
+	public void toggle() {
+		setState(!this.toggleState);
 	}
 	
 	public boolean isToggled() {

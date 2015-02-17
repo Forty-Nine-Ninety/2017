@@ -9,9 +9,12 @@ public class TeleopForkliftController {
 	private Joystick joystick;
 	private Forklift forklift;
 	
-	private boolean elevatorStasisOn;
+	private Toggle elevatorStasisToggle;
+	private double elevatorStasisSpeed;
+	private boolean lastElevatorStasisToggled;
 	
 	private Toggle forkStateToggle;
+	private boolean lastForkStateToggleInput = false;
 	
 	private final double safetyElevatorPower;
 	
@@ -22,8 +25,6 @@ public class TeleopForkliftController {
 			int timeUntilNextToggle) {
 		this.joystick = joystick;
 		this.forklift = forklift;
-		
-		this.elevatorStasisOn = false;
 		
 		this.forkStateToggle = new Toggle(timeUntilNextToggle);
 		
@@ -36,19 +37,29 @@ public class TeleopForkliftController {
 	}
 	
 	private void updateElevatorState(double elevatorInput, boolean elevatorStasisToggled) {
-		if (elevatorInput == 0 && elevatorStasisToggled) {
-			this.elevatorStasisOn = true;
-		} else if (this.elevatorStasisOn && elevatorInput < 0) {
-			this.forklift.setElevatorPower(this.safetyElevatorPower);
-			this.elevatorStasisOn = false;
-		} else {
-			this.forklift.setElevatorPower(elevatorInput);
-			this.elevatorStasisOn = false;
+		double elevatorPower = elevatorInput * 0.4;
+		
+		this.forklift.setElevatorPower(elevatorPower);
+		
+		/*if (elevatorStasisToggled && !this.lastElevatorStasisToggled) {
+			this.elevatorStasisToggle.toggle();
+			
+			if (this.elevatorStasisToggle.isToggled()) {
+				this.elevatorStasisSpeed = elevatorInput;
+			}
 		}
+		
+		this.lastElevatorStasisToggled = elevatorStasisToggled;
+		
+		if (this.elevatorStasisToggle.isToggled()) {
+			this.forklift.setElevatorPower(this.elevatorStasisSpeed);
+		} else {
+			this.forklift.setElevatorPower(elevatorPower);
+		}*/
 	}
 	
 	private void updateForkState(boolean forkStateToggled) {
-		if (forkStateToggled) {
+		if (forkStateToggled && !this.lastForkStateToggleInput) {
 			this.forkStateToggle.toggle();
 			
 			if (this.forkStateToggle.isToggled()) {
@@ -59,5 +70,7 @@ public class TeleopForkliftController {
 			
 			System.out.println("isToggled: " + this.forkStateToggle.isToggled());
 		}
+		
+		this.lastForkStateToggleInput = forkStateToggled;
 	}
 }

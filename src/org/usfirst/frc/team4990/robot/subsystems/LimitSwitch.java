@@ -16,10 +16,6 @@ public class LimitSwitch {
 		return this.counter.get() > 0;
 	}
 	
-	public void printCounter() {
-		System.out.println(this.counter.get());
-	}
-	
 	public void reset() {
 		this.counter.reset();
 	}

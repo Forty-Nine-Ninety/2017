@@ -82,8 +82,6 @@ public class Robot extends IterativeRobot {
     	
     	this.logger.profileDriveTrain(this.driveTrain);
     }
-
-    private DigitalInput limitSwitch;
     
     public void teleopInit() {
     	this.teleopDriveTrainController = new TeleopDriveTrainController(
@@ -106,7 +104,6 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	
     	if (this.forkliftJoystick.getRawButton(11)) {
     		this.eStopTriggered = true;
     	}

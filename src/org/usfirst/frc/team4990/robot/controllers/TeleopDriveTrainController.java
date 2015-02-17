@@ -16,6 +16,7 @@ public class TeleopDriveTrainController {
 	private Date lastUpdate;
 	
 	private Toggle dpiToggle;
+	boolean lastDpiToggleInput = false;
 	private double currentThrottleMultiplier = 1;
 	
 	private final double maxTurnRadius;
@@ -47,7 +48,7 @@ public class TeleopDriveTrainController {
 	public void updateDriveTrainState() {
 		boolean dpiTogglePressed = this.gamepad.getYButtonPressed();
 		
-		if (dpiTogglePressed) {
+		if (dpiTogglePressed && !this.lastDpiToggleInput) {
 			this.dpiToggle.toggle();
 			
 			if (this.dpiToggle.isToggled()) {
@@ -56,6 +57,8 @@ public class TeleopDriveTrainController {
 				this.currentThrottleMultiplier = 1.0;
 			}
 		}
+		
+		this.lastDpiToggleInput = dpiTogglePressed;
 		
 		double throttleInput = this.gamepad.getLeftJoystickY();
 		double turnSteepnessInput = this.gamepad.getRightJoystickX();

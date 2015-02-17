@@ -2,6 +2,7 @@ package org.usfirst.frc.team4990.robot;
 
 import java.io.*;
 import java.text.*;
+import java.util.Scanner;
 
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 
@@ -44,18 +45,6 @@ public class Logger {
 		
 	}
 	
-	private void read(String path) {
-		try{
-		BufferedReader br = new BufferedReader(new FileReader(path));
-		System.out.println(br);
-		br.close();
-		}catch(IOException ioe){
-			ioe.printStackTrace();
-		}
-		}
-		
-		
-	
 	private String getDate(){
 		DateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss:SSS");
 		java.util.Date date = new java.util.Date();
@@ -65,6 +54,9 @@ public class Logger {
 
 	public void logInit() {
 		write(path, "asasd", "alkdsjflasdjflkasdfj");
+		//prints start up log init file!
+		//write(path, "Startup", "Log system has started and loaded");
+		write(path,"asdf:","asdfadfs");
 		read(path);
 	}
 }

@@ -9,8 +9,8 @@ public class Forklift {
 	private Fork fork;
 	private boolean forkState;
 	
-	public Forklift(Motor elevatorMotor) {
-		this.elevator = new Elevator(elevatorMotor);
+	public Forklift(Motor elevatorMotor, int topSwitchChannel) {
+		this.elevator = new Elevator(elevatorMotor, topSwitchChannel);
 		this.fork = new Fork();
 	}
 
@@ -31,6 +31,8 @@ public class Forklift {
 	}
 	
 	public void update() {
+		this.elevator.checkSafety();
+		
 		this.elevator.setElevatorPower(this.elevatorSetPower);
 		this.fork.setForkState(this.forkState);
 	}

@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4990.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 
 import org.usfirst.frc.team4990.robot.controllers.AutoDriveTrainController;
@@ -26,10 +28,12 @@ public class Robot extends IterativeRobot {
 	private F310Gamepad driveGamepad;
 	private DriveTrain driveTrain;
 	
-	private F310Gamepad forkliftGamepad;
+	private Joystick forkliftJoystick;
 	private Forklift forklift;
 	
 	private AutoDriveTrainController autoDriveTrainController;
+	
+	private boolean eStopTriggered;
 	
 	private TeleopDriveTrainController teleopDriveTrainController;
 	private TeleopForkliftController teleopForkliftController;
@@ -42,7 +46,7 @@ public class Robot extends IterativeRobot {
     	this.prefs = Preferences.getInstance();
     	
     	this.driveGamepad = new F310Gamepad(1);
-    	this.forkliftGamepad = new F310Gamepad(2);
+    	this.forkliftJoystick = new Joystick(2);
     	
     	this.driveTrain = new DriveTrain( 
     		new TalonMotorController(0),
@@ -52,7 +56,9 @@ public class Robot extends IterativeRobot {
     		0, 1, 2, 3);
     	
     	this.forklift = new Forklift(
-    			new TalonMotorController(4));
+    			new TalonMotorController(4), 4);
+    	
+    	this.eStopTriggered = false;
     }
 
     public void autonomousInit() {
@@ -77,6 +83,8 @@ public class Robot extends IterativeRobot {
     	this.logger.profileDriveTrain(this.driveTrain);
     }
 
+    private DigitalInput limitSwitch;
+    
     public void teleopInit() {
     	this.teleopDriveTrainController = new TeleopDriveTrainController(
         		this.driveGamepad, 
@@ -88,19 +96,31 @@ public class Robot extends IterativeRobot {
         		this.prefs.getInt("timePerToggle", 150));
     	
     	this.teleopForkliftController = new TeleopForkliftController(
-    			this.forkliftGamepad, 
+    			this.forkliftJoystick, 
     			this.forklift,
     			this.prefs.getDouble("safetyElevatorPower", 0.2),
     			this.prefs.getInt("timePerToggle", 150));
     }
-    
+     
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        this.teleopDriveTrainController.updateDriveTrainState();
-        
-        this.driveTrain.update();
+    	
+    	if (this.forkliftJoystick.getRawButton(11)) {
+    		this.eStopTriggered = true;
+    	}
+    	
+    	if (!this.eStopTriggered) {
+	        this.teleopDriveTrainController.updateDriveTrainState();
+	        this.teleopForkliftController.updateForkliftState();
+    	} else {
+    		this.driveTrain.setSpeed(0.0, 0.0);
+    		this.forklift.setElevatorPower(0.0);
+    	}
+    	
+    	this.driveTrain.update();
+        this.forklift.update();
         
         this.logger.profileDriveTrain(this.driveTrain);
     }

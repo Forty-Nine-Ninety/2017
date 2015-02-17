@@ -1,11 +1,12 @@
 package org.usfirst.frc.team4990.robot.controllers;
 
 import org.usfirst.frc.team4990.robot.lib.Toggle;
-import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
 import org.usfirst.frc.team4990.robot.subsystems.Forklift;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 public class TeleopForkliftController {
-	private F310Gamepad gamepad;
+	private Joystick joystick;
 	private Forklift forklift;
 	
 	private boolean elevatorStasisOn;
@@ -15,11 +16,11 @@ public class TeleopForkliftController {
 	private final double safetyElevatorPower;
 	
 	public TeleopForkliftController(
-			F310Gamepad gamepad, 
+			Joystick joystick, 
 			Forklift forklift, 
 			double safetyElevatorPower,
 			int timeUntilNextToggle) {
-		this.gamepad = gamepad;
+		this.joystick = joystick;
 		this.forklift = forklift;
 		
 		this.elevatorStasisOn = false;
@@ -30,18 +31,18 @@ public class TeleopForkliftController {
 	}
 
 	public void updateForkliftState() {
-		updateElevatorState(this.gamepad.getLeftJoystickY(), this.gamepad.getAButtonPressed());
-		updateForkState(this.gamepad.getBButtonPressed());
+		updateElevatorState(this.joystick.getY(), this.joystick.getRawButton(1));
+		updateForkState(this.joystick.getRawButton(2));
 	}
 	
 	private void updateElevatorState(double elevatorInput, boolean elevatorStasisToggled) {
 		if (elevatorInput == 0 && elevatorStasisToggled) {
 			this.elevatorStasisOn = true;
-		} else if (elevatorInput > 0) {
-			this.forklift.setElevatorPower(elevatorInput);
-			this.elevatorStasisOn = false;
 		} else if (this.elevatorStasisOn && elevatorInput < 0) {
 			this.forklift.setElevatorPower(this.safetyElevatorPower);
+			this.elevatorStasisOn = false;
+		} else {
+			this.forklift.setElevatorPower(elevatorInput);
 			this.elevatorStasisOn = false;
 		}
 	}
@@ -55,6 +56,8 @@ public class TeleopForkliftController {
 			} else {
 				this.forklift.setForkToClosed();
 			}
+			
+			System.out.println("isToggled: " + this.forkStateToggle.isToggled());
 		}
 	}
 }

@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
     		0, 1, 2, 3);
     	
     	this.forklift = new Forklift(
-    			new TalonMotorController(4), 4);
+    			new TalonMotorController(4), 0, 4);
     	
     	this.eStopTriggered = false;
     }

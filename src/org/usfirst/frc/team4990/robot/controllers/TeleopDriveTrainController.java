@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4990.robot.controllers;
 
 import org.usfirst.frc.team4990.robot.Constants;
-import org.usfirst.frc.team4990.robot.lib.Toggle;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
 
@@ -15,14 +14,15 @@ public class TeleopDriveTrainController {
 	private double lastTurnSteepness = 0;
 	private Date lastUpdate;
 	
-	private Toggle dpiToggle;
-	boolean lastDpiToggleInput = false;
-	private double currentThrottleMultiplier = 1;
+	private boolean lowDpiToggled = true;
+	private boolean lastDpiToggleInput = false;
+	private double currentThrottleMultiplier;
 	
 	private final double maxTurnRadius;
 	private final boolean reverseTurningFlipped;
 	private final double accelerationTime;
 	private final double lowThrottleMultiplier;
+	private final double maxThrottle;
 	
 	public TeleopDriveTrainController(
 			F310Gamepad gamepad, 
@@ -31,30 +31,29 @@ public class TeleopDriveTrainController {
 			boolean reverseTurningFlipped,
 			double accelerationTime,
 			double lowThrottleMultiplier,
-			int timeUntilNextToggle) {
+			double maxThrottle) {
 		this.gamepad = gamepad;
 		this.driveTrain = driveTrain;
 		
 		this.lastUpdate = new Date();
 		
-		this.dpiToggle = new Toggle(timeUntilNextToggle);
+		this.currentThrottleMultiplier = maxThrottle;
 		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;
 		this.accelerationTime = accelerationTime;
 		this.lowThrottleMultiplier = lowThrottleMultiplier;
+		this.maxThrottle = maxThrottle;
 	}
 	
 	public void updateDriveTrainState() {
-		boolean dpiTogglePressed = this.gamepad.getYButtonPressed();
+		boolean dpiTogglePressed = this.gamepad.getRightBumperPressed();
 		
 		if (dpiTogglePressed && !this.lastDpiToggleInput) {
-			this.dpiToggle.toggle();
-			
-			if (this.dpiToggle.isToggled()) {
+			if (this.currentThrottleMultiplier == this.maxThrottle) {
 				this.currentThrottleMultiplier = this.lowThrottleMultiplier;
 			} else {
-				this.currentThrottleMultiplier = 1.0;
+				this.currentThrottleMultiplier = this.maxThrottle;
 			}
 		}
 		

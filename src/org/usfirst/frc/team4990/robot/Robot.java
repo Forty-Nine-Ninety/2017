@@ -56,7 +56,12 @@ public class Robot extends IterativeRobot {
     		0, 1, 2, 3);
     	
     	this.forklift = new Forklift(
-    			new TalonMotorController(4), 0, 4);
+    			new TalonMotorController(4), 
+    			0, 
+    			4, 
+    			this.prefs.getInt("topSwitchCounterSensitivity", 4),
+    			5,
+    			this.prefs.getInt("bottomSwitchCounterSensitivity", 4));
     	
     	this.eStopTriggered = false;
     }
@@ -91,13 +96,12 @@ public class Robot extends IterativeRobot {
         		this.prefs.getBoolean("reverseTurningFlipped", true),
         		this.prefs.getDouble("smoothDriveAccTime", Constants.defaultAccelerationTime),
         		this.prefs.getDouble("lowThrottleMultiplier", .25),
-        		this.prefs.getInt("timePerToggle", 150));
+        		this.prefs.getDouble("maxThrottle", 1.0));
     	
     	this.teleopForkliftController = new TeleopForkliftController(
     			this.forkliftJoystick, 
     			this.forklift,
-    			this.prefs.getDouble("safetyElevatorPower", 0.2),
-    			this.prefs.getInt("timePerToggle", 150));
+    			this.prefs.getDouble("maxPowerPercent", 0.4));
     }
      
     /**

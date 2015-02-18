@@ -57,8 +57,6 @@ public class TeleopForkliftController {
 				this.forklift.setForkToClosed();
 				this.forkIsOpen = false;
 			}
-			
-			System.out.println("isToggled: " + this.forkIsOpen);
 		}
 		
 		this.lastForkStateToggleInput = forkStateToggled;

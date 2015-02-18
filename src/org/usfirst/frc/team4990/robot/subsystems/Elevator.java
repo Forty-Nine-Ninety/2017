@@ -58,8 +58,6 @@ public class Elevator {
 			this.isBelow = !this.isBelow;
 			this.isBelowSwitchInProgress = false;
 		}
-		
-		System.out.println("isSwitched: " + this.bottomSwitch.isSwitched() + "; inProgress: " + this.isBelowSwitchInProgress + "; isBelow: " + this.isBelow);
 	}
 	
 	public void reset() {

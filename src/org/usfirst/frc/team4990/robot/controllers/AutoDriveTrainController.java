@@ -9,43 +9,30 @@ import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 public class AutoDriveTrainController {
 	private DriveTrain driveTrain;
 	
-	private PositionPIDLoop pidLoop;
-	private MotionProfile motionProfile;
+	private int delay;
+	private int timeForward;
+	private double velocity;
 	
 	private Date motionProfileStart;
 	
-	public AutoDriveTrainController(DriveTrain driveTrain, double Kp, double Kd, double Kv, double Ka) {
+	public AutoDriveTrainController(DriveTrain driveTrain) {
 		this.driveTrain = driveTrain;
-		
-		this.pidLoop = new PositionPIDLoop(Kp, Kd, Kv, Ka);
 	}
 	
-	public void setMotionProfile(MotionProfile motionProfile) {
-		this.motionProfile = motionProfile;
+	public void setMotionProfile(int delay, int timeForward, double velocity) {
+		this.delay = delay;
+		this.timeForward = timeForward;
+		this.velocity = velocity;
 		this.motionProfileStart = new Date();
 	}
 	
 	public void updateDriveTrainState() {
 		long timeSinceStart = (new Date()).getTime() - this.motionProfileStart.getTime();
-		MotionProfile.ProfileValues nextVelAndAcc = this.motionProfile.getProfileValuesAt(timeSinceStart);
-		double nextVelocity = nextVelAndAcc.velocity, 
-			   nextAcceleration = nextVelAndAcc.acceleration;
 		
-		System.out.println(nextVelocity + "; " + nextAcceleration);
-		
-		/*
-		 * use of the left distance and velocity is arbitrary--in theory both sides should be 
-		 * driving at the same speed.
-		 */
-		double currentDistanceTraveled = this.driveTrain.getLeftDistanceTraveled();
-		double currentVelocity = this.driveTrain.getLeftVelocity();
-		
-		this.pidLoop.setGoal(this.motionProfile.getDistanceToTravel(), nextVelocity, nextAcceleration);
-		double newVelocity = this.pidLoop.getNextVelocity(currentDistanceTraveled);
-		
-		//TODO: call scaleToPower on newVelocity to turn it into power
-		double newPower = newVelocity;
-		
-		this.driveTrain.setSpeed(newPower, newPower);
+		if (timeSinceStart > this.delay && timeSinceStart < (this.delay + this.timeForward)) {
+			this.driveTrain.setSpeed(this.velocity, this.velocity);
+		} else {
+			this.driveTrain.setSpeed(0.0, 0.0);
+		}
 	}
 }

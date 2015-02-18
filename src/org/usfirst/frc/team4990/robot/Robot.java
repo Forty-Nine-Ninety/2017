@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4990.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
@@ -42,8 +41,11 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	this.logger = new Logger(new Dashboard());
     	this.prefs = Preferences.getInstance();
+    	this.logger = new Logger(
+    			
+    			//prefs for logger
+    			"/home/lvuser/logs/testter.txt");
     	
     	this.driveGamepad = new F310Gamepad(1);
     	this.forkliftJoystick = new Joystick(2);
@@ -54,7 +56,7 @@ public class Robot extends IterativeRobot {
     		new TalonMotorController(2),
     		new TalonMotorController(3),
     		0, 1, 2, 3);
-    	
+
     	this.forklift = new Forklift(
     			new TalonMotorController(4), 
     			0, 
@@ -64,6 +66,9 @@ public class Robot extends IterativeRobot {
     			this.prefs.getInt("bottomSwitchCounterSensitivity", 4));
     	
     	this.eStopTriggered = false;
+    	
+    	//checks and runs the start up text for logger
+    	this.logger.logInit();
     }
 
     public void autonomousInit() {

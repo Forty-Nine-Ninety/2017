@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
     	this.logger = new Logger(
     			
     			//prefs for logger
-    			"/home/lvuser/logs/log.txt");
+    			"/home/lvuser/logs/testter.txt");
     	
     	this.gamepad = new F310Gamepad(0);
     	

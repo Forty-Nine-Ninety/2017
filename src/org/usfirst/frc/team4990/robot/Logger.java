@@ -57,6 +57,6 @@ public class Logger {
 		//prints start up log init file!
 		//write(path, "Startup", "Log system has started and loaded");
 		write(path,"asdf:","asdfadfs");
-		read(path);
+		Reader.read(path);
 	}
 }

@@ -14,6 +14,7 @@ public class TeleopForkliftController {
 	private boolean lastElevatorStasisToggled;
 	
 	private Toggle forkStateToggle;
+	private boolean forkIsOpen = false;
 	private boolean lastForkStateToggleInput = false;
 	
 	private boolean isElevatorEStopTriggered = false;
@@ -67,15 +68,13 @@ public class TeleopForkliftController {
 	
 	private void updateForkState(boolean forkStateToggled) {
 		if (forkStateToggled && !this.lastForkStateToggleInput) {
-			this.forkStateToggle.toggle();
-			
-			if (this.forkStateToggle.isToggled()) {
+			if (!this.forkIsOpen) {
 				this.forklift.setForkToOpen();
 			} else {
 				this.forklift.setForkToClosed();
 			}
 			
-			System.out.println("isToggled: " + this.forkStateToggle.isToggled());
+			System.out.println("isToggled: " + this.forkIsOpen);
 		}
 		
 		this.lastForkStateToggleInput = forkStateToggled;

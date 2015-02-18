@@ -21,8 +21,6 @@ public class LimitSwitch {
 	public void update() {
 		this.lastCount = this.currentCount;
 		this.currentCount = this.counter.get();
-		
-		System.out.println("lastCount: " + this.lastCount + "; currentCount: " + this.currentCount);
 	}
 	
 	public boolean isSwitched() {

@@ -37,7 +37,5 @@ public class Elevator {
 			this.isAbove = !this.isAbove;
 			this.isAboveSwitchInProgress = false;
 		}
-		
-		System.out.println("switchInProgress: " + this.isAboveSwitchInProgress + "; isSwitched: " + this.topSwitch.isSwitched() + "; isAbove: " + this.isAbove);
 	}
 }

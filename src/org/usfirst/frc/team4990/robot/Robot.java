@@ -96,7 +96,6 @@ public class Robot extends IterativeRobot {
     	this.teleopForkliftController = new TeleopForkliftController(
     			this.forkliftJoystick, 
     			this.forklift,
-    			this.prefs.getDouble("safetyElevatorPower", 0.2),
     			this.prefs.getInt("timePerToggle", 150));
     }
      

@@ -8,8 +8,7 @@ public class TeleopForkliftController {
 	private Joystick joystick;
 	private Forklift forklift;
 	
-	private double elevatorStasisSpeed;
-	private boolean lastElevatorStasisToggled;
+	private final double maxPowerPercent;
 	
 	private boolean forkIsOpen = false;
 	private boolean lastForkStateToggleInput = false;
@@ -18,9 +17,11 @@ public class TeleopForkliftController {
 	
 	public TeleopForkliftController(
 			Joystick joystick, 
-			Forklift forklift) {
+			Forklift forklift,
+			double maxPowerPercent) {
 		this.joystick = joystick;
 		this.forklift = forklift;
+		this.maxPowerPercent = maxPowerPercent;
 	}
 
 	public void updateForkliftState() {
@@ -39,25 +40,9 @@ public class TeleopForkliftController {
 	
 	private void updateElevatorState(double elevatorInput, boolean elevatorStasisToggled) {
 		if (!this.isElevatorEStopTriggered) {
-			double elevatorPower = elevatorInput * 0.6;
+			double elevatorPower = elevatorInput * this.maxPowerPercent;
 			
 			this.forklift.setElevatorPower(elevatorPower);
-			
-			/*if (elevatorStasisToggled && !this.lastElevatorStasisToggled) {
-				this.elevatorStasisToggle.toggle();
-				
-				if (this.elevatorStasisToggle.isToggled()) {
-					this.elevatorStasisSpeed = elevatorInput;
-				}
-			}
-			
-			this.lastElevatorStasisToggled = elevatorStasisToggled;
-			
-			if (this.elevatorStasisToggle.isToggled()) {
-				this.forklift.setElevatorPower(this.elevatorStasisSpeed);
-			} else {
-				this.forklift.setElevatorPower(elevatorPower);
-			}*/
 		} else {
 			this.forklift.setElevatorPower(0.0);
 		}

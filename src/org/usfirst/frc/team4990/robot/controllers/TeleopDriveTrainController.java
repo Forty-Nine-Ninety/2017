@@ -16,12 +16,13 @@ public class TeleopDriveTrainController {
 	
 	private boolean lowDpiToggled = true;
 	private boolean lastDpiToggleInput = false;
-	private double currentThrottleMultiplier = 1;
+	private double currentThrottleMultiplier;
 	
 	private final double maxTurnRadius;
 	private final boolean reverseTurningFlipped;
 	private final double accelerationTime;
 	private final double lowThrottleMultiplier;
+	private final double maxThrottle;
 	
 	public TeleopDriveTrainController(
 			F310Gamepad gamepad, 
@@ -29,26 +30,30 @@ public class TeleopDriveTrainController {
 			double maxTurnRadius, 
 			boolean reverseTurningFlipped,
 			double accelerationTime,
-			double lowThrottleMultiplier) {
+			double lowThrottleMultiplier,
+			double maxThrottle) {
 		this.gamepad = gamepad;
 		this.driveTrain = driveTrain;
 		
 		this.lastUpdate = new Date();
 		
+		this.currentThrottleMultiplier = maxThrottle;
+		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;
 		this.accelerationTime = accelerationTime;
 		this.lowThrottleMultiplier = lowThrottleMultiplier;
+		this.maxThrottle = maxThrottle;
 	}
 	
 	public void updateDriveTrainState() {
-		boolean dpiTogglePressed = this.gamepad.getYButtonPressed();
+		boolean dpiTogglePressed = this.gamepad.getRightBumperPressed();
 		
 		if (dpiTogglePressed && !this.lastDpiToggleInput) {
-			if (this.currentThrottleMultiplier == 1.0) {
+			if (this.currentThrottleMultiplier == this.maxThrottle) {
 				this.currentThrottleMultiplier = this.lowThrottleMultiplier;
 			} else {
-				this.currentThrottleMultiplier = 1.0;
+				this.currentThrottleMultiplier = this.maxThrottle;
 			}
 		}
 		

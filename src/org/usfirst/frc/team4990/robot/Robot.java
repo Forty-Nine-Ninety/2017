@@ -95,11 +95,13 @@ public class Robot extends IterativeRobot {
         		this.prefs.getDouble("maxTurnRadius", Constants.defaultMaxTurnRadius),
         		this.prefs.getBoolean("reverseTurningFlipped", true),
         		this.prefs.getDouble("smoothDriveAccTime", Constants.defaultAccelerationTime),
-        		this.prefs.getDouble("lowThrottleMultiplier", .25));
+        		this.prefs.getDouble("lowThrottleMultiplier", .25),
+        		this.prefs.getDouble("maxThrottle", 1.0));
     	
     	this.teleopForkliftController = new TeleopForkliftController(
     			this.forkliftJoystick, 
-    			this.forklift);
+    			this.forklift,
+    			this.prefs.getDouble("maxPowerPercent", 0.4));
     }
      
     /**

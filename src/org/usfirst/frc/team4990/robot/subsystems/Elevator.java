@@ -10,15 +10,27 @@ public class Elevator {
 	private boolean isAboveSwitchInProgress = false;
 	private boolean isAbove;
 	
-	public Elevator(Motor elevatorMotor, int topSwitchChannel, int topSwitchCounterSensitivity) {
+	private LimitSwitch bottomSwitch;
+	private boolean isBelowSwitchInProgress = false;
+	private boolean isBelow;
+	
+	public Elevator(
+			Motor elevatorMotor, 
+			int topSwitchChannel, 
+			int topSwitchCounterSensitivity, 
+			int bottomSwitchChannel, 
+			int bottomSwitchCounterSensitivity) {
 		this.elevatorMotor = elevatorMotor;
 		
 		this.topSwitch = new LimitSwitch(topSwitchChannel, topSwitchCounterSensitivity);
 		this.isAbove = false;
+		
+		this.bottomSwitch = new LimitSwitch(bottomSwitchChannel, bottomSwitchCounterSensitivity);
+		this.isBelow = false;
 	}
 
 	public void setElevatorPower(double power) {
-		if (this.isAbove && power > 0) {
+		if ((this.isAbove && power > 0) || (this.isBelow && power < 0)) {
 			this.currMotorPower = 0;
 			this.elevatorMotor.setPower(0.0);
 		} else {
@@ -29,6 +41,7 @@ public class Elevator {
 	
 	public void checkSafety() {
 		this.topSwitch.update();
+		this.bottomSwitch.update();
 		
 		if (this.topSwitch.isSwitched()) {
 			this.isAboveSwitchInProgress = true;
@@ -37,5 +50,25 @@ public class Elevator {
 			this.isAbove = !this.isAbove;
 			this.isAboveSwitchInProgress = false;
 		}
+		
+		if (this.bottomSwitch.isSwitched()) {
+			this.isBelowSwitchInProgress = true;
+		//in this case, this.belowSwitch.isSwitched will always be true
+		} else if (this.isBelowSwitchInProgress) {
+			this.isBelow = !this.isBelow;
+			this.isBelowSwitchInProgress = false;
+		}
+		
+		System.out.println("isSwitched: " + this.bottomSwitch.isSwitched() + "; inProgress: " + this.isBelowSwitchInProgress + "; isBelow: " + this.isBelow);
+	}
+	
+	public void reset() {
+		this.topSwitch.reset();
+		this.isAbove = false;
+		this.isAboveSwitchInProgress = false;
+		
+		this.bottomSwitch.reset();
+		this.isBelow = false;
+		this.isBelowSwitchInProgress = false;
 	}
 }

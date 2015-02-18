@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4990.robot.controllers;
 
 import org.usfirst.frc.team4990.robot.Constants;
-import org.usfirst.frc.team4990.robot.lib.Toggle;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
 
@@ -15,7 +14,6 @@ public class TeleopDriveTrainController {
 	private double lastTurnSteepness = 0;
 	private Date lastUpdate;
 	
-	private Toggle dpiToggle;
 	private boolean lowDpiToggled = true;
 	private boolean lastDpiToggleInput = false;
 	private double currentThrottleMultiplier = 1;
@@ -31,14 +29,11 @@ public class TeleopDriveTrainController {
 			double maxTurnRadius, 
 			boolean reverseTurningFlipped,
 			double accelerationTime,
-			double lowThrottleMultiplier,
-			int timeUntilNextToggle) {
+			double lowThrottleMultiplier) {
 		this.gamepad = gamepad;
 		this.driveTrain = driveTrain;
 		
 		this.lastUpdate = new Date();
-		
-		this.dpiToggle = new Toggle(timeUntilNextToggle);
 		
 		this.maxTurnRadius = maxTurnRadius;
 		this.reverseTurningFlipped = reverseTurningFlipped;

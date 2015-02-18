@@ -21,9 +21,16 @@ public class LimitSwitch {
 	public void update() {
 		this.lastCount = this.currentCount;
 		this.currentCount = this.counter.get();
+		System.out.println("lastCount: " + this.lastCount + "; currCount: " + this.currentCount);
 	}
 	
 	public boolean isSwitched() {
 		return this.currentCount - this.lastCount > this.counterSensitivity;
+	}
+	
+	public void reset() {
+		this.counter.reset();
+		this.currentCount = 0;
+		this.lastCount = 0;
 	}
 }

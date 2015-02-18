@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4990.robot.controllers;
 
-import org.usfirst.frc.team4990.robot.lib.Toggle;
 import org.usfirst.frc.team4990.robot.subsystems.Forklift;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -9,11 +8,9 @@ public class TeleopForkliftController {
 	private Joystick joystick;
 	private Forklift forklift;
 	
-	private Toggle elevatorStasisToggle;
 	private double elevatorStasisSpeed;
 	private boolean lastElevatorStasisToggled;
 	
-	private Toggle forkStateToggle;
 	private boolean forkIsOpen = false;
 	private boolean lastForkStateToggleInput = false;
 	
@@ -21,17 +18,15 @@ public class TeleopForkliftController {
 	
 	public TeleopForkliftController(
 			Joystick joystick, 
-			Forklift forklift,
-			int timeUntilNextToggle) {
+			Forklift forklift) {
 		this.joystick = joystick;
 		this.forklift = forklift;
-		
-		this.forkStateToggle = new Toggle(timeUntilNextToggle);
 	}
 
 	public void updateForkliftState() {
 		if (this.joystick.getRawButton(8)) {
 			this.isElevatorEStopTriggered = false;
+			this.forklift.reset();
 		}
 		
 		if (this.joystick.getRawButton(7)) {
@@ -44,7 +39,7 @@ public class TeleopForkliftController {
 	
 	private void updateElevatorState(double elevatorInput, boolean elevatorStasisToggled) {
 		if (!this.isElevatorEStopTriggered) {
-			double elevatorPower = elevatorInput * 0.4;
+			double elevatorPower = elevatorInput * 0.6;
 			
 			this.forklift.setElevatorPower(elevatorPower);
 			
@@ -63,6 +58,8 @@ public class TeleopForkliftController {
 			} else {
 				this.forklift.setElevatorPower(elevatorPower);
 			}*/
+		} else {
+			this.forklift.setElevatorPower(0.0);
 		}
 	}
 	
@@ -70,8 +67,10 @@ public class TeleopForkliftController {
 		if (forkStateToggled && !this.lastForkStateToggleInput) {
 			if (!this.forkIsOpen) {
 				this.forklift.setForkToOpen();
+				this.forkIsOpen = true;
 			} else {
 				this.forklift.setForkToClosed();
+				this.forkIsOpen = false;
 			}
 			
 			System.out.println("isToggled: " + this.forkIsOpen);

@@ -7,16 +7,25 @@ public class LimitSwitch {
 	private DigitalInput limitSwitch;
 	private Counter counter;
 	
-	public LimitSwitch(int digitalIOChannel) {
+	private int currentCount = 0;
+	private int lastCount = 0;
+	
+	private int counterSensitivity;
+	
+	public LimitSwitch(int digitalIOChannel, int counterSensitivity) {
 		this.limitSwitch = new DigitalInput(digitalIOChannel);
 		this.counter = new Counter(this.limitSwitch);
+		this.counterSensitivity = counterSensitivity;
+	}
+	
+	public void update() {
+		this.lastCount = this.currentCount;
+		this.currentCount = this.counter.get();
+		
+		System.out.println("lastCount: " + this.lastCount + "; currentCount: " + this.currentCount);
 	}
 	
 	public boolean isSwitched() {
-		return this.counter.get() > 0;
-	}
-	
-	public void reset() {
-		this.counter.reset();
+		return this.currentCount - this.lastCount > this.counterSensitivity;
 	}
 }

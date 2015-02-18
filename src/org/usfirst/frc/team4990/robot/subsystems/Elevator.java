@@ -7,13 +7,13 @@ public class Elevator {
 	private double currMotorPower;
 	
 	private LimitSwitch topSwitch;
-	private boolean lastTopSwitched = false;
+	private boolean isAboveSwitchInProgress = false;
 	private boolean isAbove;
 	
-	public Elevator(Motor elevatorMotor, int topSwitchChannel) {
+	public Elevator(Motor elevatorMotor, int topSwitchChannel, int topSwitchCounterSensitivity) {
 		this.elevatorMotor = elevatorMotor;
 		
-		this.topSwitch = new LimitSwitch(topSwitchChannel);
+		this.topSwitch = new LimitSwitch(topSwitchChannel, topSwitchCounterSensitivity);
 		this.isAbove = false;
 	}
 
@@ -28,11 +28,16 @@ public class Elevator {
 	}
 	
 	public void checkSafety() {
-		if (this.topSwitch.isSwitched() && !this.lastTopSwitched) {
+		this.topSwitch.update();
+		
+		if (this.topSwitch.isSwitched()) {
+			this.isAboveSwitchInProgress = true;
+		//in this case, this.topSwitch.isSwitched will always be true
+		} else if (this.isAboveSwitchInProgress) {
 			this.isAbove = !this.isAbove;
-			this.topSwitch.reset();
+			this.isAboveSwitchInProgress = false;
 		}
 		
-		this.lastTopSwitched = this.topSwitch.isSwitched();
+		System.out.println("switchInProgress: " + this.isAboveSwitchInProgress + "; isSwitched: " + this.topSwitch.isSwitched() + "; isAbove: " + this.isAbove);
 	}
 }

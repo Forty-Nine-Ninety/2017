@@ -10,7 +10,7 @@ public class LimitSwitch {
 	private int currentCount = 0;
 	private int lastCount = 0;
 	
-	private int counterSensitivity;
+	private int counterSensitivity; // threshold to compensate for noise
 	
 	public LimitSwitch(int digitalIOChannel, int counterSensitivity) {
 		this.limitSwitch = new DigitalInput(digitalIOChannel);

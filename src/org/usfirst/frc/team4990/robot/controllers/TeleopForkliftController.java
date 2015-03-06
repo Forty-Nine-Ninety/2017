@@ -25,11 +25,13 @@ public class TeleopForkliftController {
 	}
 
 	public void updateForkliftState() {
+		// untrigger forklift e-stop
 		if (this.joystick.getRawButton(8)) {
 			this.isElevatorEStopTriggered = false;
 			this.forklift.reset();
 		}
 		
+		// trigger forklift e-stop
 		if (this.joystick.getRawButton(7)) {
 			this.isElevatorEStopTriggered = true;
 		}

@@ -60,9 +60,9 @@ public class Robot extends IterativeRobot {
     	this.forklift = new Forklift(
     			new TalonMotorController(4), 
     			0, 
-    			4, 
+    			4, // top switch
     			this.prefs.getInt("topSwitchCounterSensitivity", 4),
-    			5,
+    			5, // bottom switch
     			this.prefs.getInt("bottomSwitchCounterSensitivity", 4));
     	
     	this.eStopTriggered = false;

@@ -84,11 +84,11 @@ public class TeleopDriveTrainController {
 			setStraightTrajectory(throttle);
 		} else if (throttleInput == 0 && turnSteepnessInput != 0) {
 			setTurnInPlaceTrajectory(turnSteepness);
-				//robot was last driving straight
 		} else if (this.lastTurnSteepness == 0) {
+			// robot was last driving straight and we want it to continue the velocity profile
 			setStraightTrajectory(throttle);
-				//robot was last turning in place
 		} else {
+			// robot was last turning in place and we want it to continue the velocity profile
 			setTurnInPlaceTrajectory(turnSteepness);
 		}
 		

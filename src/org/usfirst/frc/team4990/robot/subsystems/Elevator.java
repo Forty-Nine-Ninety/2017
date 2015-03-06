@@ -23,12 +23,14 @@ public class Elevator {
 		this.elevatorMotor = elevatorMotor;
 		
 		this.topSwitch = new LimitSwitch(topSwitchChannel, topSwitchCounterSensitivity);
-		this.isAbove = false;
+		this.isAbove = false; // the carriage is above the top switch
 		
 		this.bottomSwitch = new LimitSwitch(bottomSwitchChannel, bottomSwitchCounterSensitivity);
-		this.isBelow = false;
+		this.isBelow = false; // the carriage is below the bottom switch
 	}
 
+	// positive power = up
+	// negative power = down
 	public void setElevatorPower(double power) {
 		if ((this.isAbove && power > 0) || (this.isBelow && power < 0)) {
 			this.currMotorPower = 0;

@@ -78,18 +78,14 @@ public class TeleopDriveTrainController {
 				currentUpdate,
 				this.accelerationTime);
 		
-		if (throttleInput != 0 && turnSteepnessInput != 0) {
+		if (throttle != 0 && turnSteepnessInput != 0) {
 			setArcTrajectory(throttle, turnSteepnessInput);
-		} else if (throttleInput != 0 && turnSteepnessInput == 0) { 
+		} else if (throttle != 0 && turnSteepnessInput == 0) { 
 			setStraightTrajectory(throttle);
-		} else if (throttleInput == 0 && turnSteepnessInput != 0) {
+		} else if (throttle == 0 && turnSteepness != 0) {
 			setTurnInPlaceTrajectory(turnSteepness);
-		} else if (this.lastTurnSteepness == 0) {
-			// robot was last driving straight and we want it to continue the velocity profile
-			setStraightTrajectory(throttle);
 		} else {
-			// robot was last turning in place and we want it to continue the velocity profile
-			setTurnInPlaceTrajectory(turnSteepness);
+			this.driveTrain.setSpeed(0.0, 0.0);
 		}
 		
 		this.lastThrottle = throttle;
@@ -98,11 +94,18 @@ public class TeleopDriveTrainController {
 	}
 	
 	public double getNextThrottle(double throttleInput, double lastThrottle, Date lastUpdate, Date currentUpdate, double accelerationTime) {
-		double acceleration = (throttleInput - lastThrottle) / accelerationTime;
-		double deltaTime = currentUpdate.getTime() - lastUpdate.getTime();
+		double newThrottle = throttleInput;
 		
-		double deltaThrottle = deltaTime * acceleration;
-		return lastThrottle + deltaThrottle;
+		if (accelerationTime != 0) {
+			double acceleration = (throttleInput - lastThrottle) / accelerationTime;
+			double deltaTime = currentUpdate.getTime() - lastUpdate.getTime();
+			
+			double deltaThrottle = deltaTime * acceleration;
+			
+			newThrottle = lastThrottle + deltaThrottle;
+		}
+		
+		return Math.abs(newThrottle) < Constants.zeroThrottleThreshold ? 0.0 : newThrottle;
 	}
 	
 	public void setArcTrajectory(double throttle, double turnSteepness) {

@@ -2,6 +2,8 @@ package org.usfirst.frc.team4990.robot;
 
 public class Constants {
 	
+	public static double zeroThrottleThreshold = 0.01;
+	
 	/*
 	 * units: feet
 	 */

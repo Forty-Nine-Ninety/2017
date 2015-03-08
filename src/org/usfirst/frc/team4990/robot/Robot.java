@@ -101,7 +101,10 @@ public class Robot extends IterativeRobot {
         		this.prefs.getBoolean("reverseTurningFlipped", true),
         		this.prefs.getDouble("smoothDriveAccTime", Constants.defaultAccelerationTime),
         		this.prefs.getDouble("lowThrottleMultiplier", .25),
-        		this.prefs.getDouble("maxThrottle", 1.0));
+        		this.prefs.getDouble("maxThrottle", 1.0),
+        		this.prefs.getBoolean("usingStraightPID", false),
+        		this.prefs.getDouble("straightPIDKp", 0.5),
+        		this.prefs.getDouble("straightPIDKd", 0.5));
     	
     	this.teleopForkliftController = new TeleopForkliftController(
     			this.forkliftJoystick, 

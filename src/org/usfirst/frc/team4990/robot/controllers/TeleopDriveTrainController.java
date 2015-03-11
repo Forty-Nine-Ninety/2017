@@ -13,11 +13,8 @@ public class TeleopDriveTrainController {
 	private double lastThrottle = 0;
 	private double lastTurnSteepness = 0;
 	
-	private double lastDVError = 0;
-	
 	private Date lastUpdate;
 	
-	private boolean lowDpiToggled = true;
 	private boolean lastDpiToggleInput = false;
 	private double currentThrottleMultiplier;
 	

@@ -33,4 +33,12 @@ public class LimitSwitch {
 		this.currentCount = 0;
 		this.lastCount = 0;
 	}
+	
+	public int getCurrCount() {
+		return this.currentCount;
+	}
+	
+	public int getLastCount() {
+		return this.lastCount;
+	}
 }

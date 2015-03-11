@@ -26,9 +26,6 @@ public class TeleopDriveTrainController {
 	private final double accelerationTime;
 	private final double lowThrottleMultiplier;
 	private final double maxThrottle;
-	private final boolean usingStraightPID;
-	private final double Kp;
-	private final double Kd;
 	
 	public TeleopDriveTrainController(
 			F310Gamepad gamepad, 
@@ -37,10 +34,7 @@ public class TeleopDriveTrainController {
 			boolean reverseTurningFlipped,
 			double accelerationTime,
 			double lowThrottleMultiplier,
-			double maxThrottle,
-			boolean usingStraightPID,
-			double Kp,
-			double Kd) {
+			double maxThrottle) {
 		this.gamepad = gamepad;
 		this.driveTrain = driveTrain;
 		
@@ -53,9 +47,6 @@ public class TeleopDriveTrainController {
 		this.accelerationTime = accelerationTime;
 		this.lowThrottleMultiplier = lowThrottleMultiplier;
 		this.maxThrottle = maxThrottle;
-		this.usingStraightPID = usingStraightPID;
-		this.Kp = Kp;
-		this.Kd = Kd;
 	}
 	
 	public void updateDriveTrainState() {
@@ -120,17 +111,6 @@ public class TeleopDriveTrainController {
 		return Math.abs(newThrottle) < Constants.zeroThrottleThreshold ? 0.0 : newThrottle;
 	}
 	
-	public double scaleBackFasterVel(double fasterVel, double dV, double goalDV) {
-		double currError = Math.abs(dV) - goalDV;
-		
-		long deltaTime = (new Date()).getTime() - this.lastUpdate.getTime();
-		double deltaError = (this.lastDVError - currError) / (double) deltaTime;
-		
-		this.lastDVError = currError;
-		
-		return fasterVel - (this.Kp * currError + this.Kd * deltaError);
-	}
-	
 	public void setArcTrajectory(double throttle, double turnSteepness) {
 		double leftWheelSpeed = throttle;
 		double rightWheelSpeed = calculateInsideWheelSpeed(throttle, turnSteepness);
@@ -163,20 +143,8 @@ public class TeleopDriveTrainController {
 	}
 	
 	public void setStraightTrajectory(double throttle) {
-		double dV = this.driveTrain.getRightVelocity() - this.driveTrain.getLeftVelocity();
-		
-		double fastSideSpeed = scaleBackFasterVel(throttle, dV, 0);
-			
-		if (this.usingStraightPID) {
-			if (dV > 0) {
-				this.driveTrain.setSpeed(throttle, fastSideSpeed);
-			} else {
-				this.driveTrain.setSpeed(fastSideSpeed, throttle);
-			}
-		} else {
-			/* both motors should spin forward. */
-			this.driveTrain.setSpeed(throttle, throttle);
-		}
+		/* both motors should spin forward. */
+		this.driveTrain.setSpeed(throttle, throttle);
 	}
 	
 	public void setTurnInPlaceTrajectory(double turningSpeed) {

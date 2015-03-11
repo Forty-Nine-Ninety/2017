@@ -62,6 +62,30 @@ public class Elevator {
 		}
 	}
 	
+	public boolean isAbove() {
+		return this.isAbove;
+	}
+	
+	public int topSwitchCurrCount() {
+		return this.topSwitch.getCurrCount();
+	}
+	
+	public int topSwitchLastCount() {
+		return this.topSwitch.getLastCount();
+	}
+	
+	public boolean isBelow() {
+		return this.isBelow;
+	}
+	
+	public int bottomSwitchCurrCount() {
+		return this.bottomSwitch.getCurrCount();
+	}
+	
+	public int bottomSwitchLastCount() {
+		return this.bottomSwitch.getLastCount();
+	}
+	
 	public void reset() {
 		this.topSwitch.reset();
 		this.isAbove = false;

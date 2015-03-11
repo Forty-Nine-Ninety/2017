@@ -23,7 +23,7 @@ import org.usfirst.frc.team4990.robot.subsystems.motors.TalonSRXMotorController;
  */
 public class Robot extends IterativeRobot {
 	Preferences prefs;
-	//private Logger logger;
+	private Logger logger;
 	
 	private F310Gamepad driveGamepad;
 	private DriveTrain driveTrain;
@@ -43,19 +43,16 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	this.prefs = Preferences.getInstance();
-    	/*this.logger = new Logger(
-    			
-    			//prefs for logger
-    			"/home/lvuser/logs/log.txt");*/
+    	this.logger = new Logger();
     	
     	this.driveGamepad = new F310Gamepad(1);
     	this.forkliftJoystick = new Joystick(2);
     	
     	this.driveTrain = new DriveTrain( 
-    		new TalonMotorController(0),
-    		new TalonMotorController(1),
-    		new TalonMotorController(2),
-    		new TalonMotorController(3),
+    		new TalonSRXMotorController(0),
+    		new TalonSRXMotorController(1),
+    		new TalonSRXMotorController(2),
+    		new TalonSRXMotorController(3),
     		0, 1, 2, 3);
 
     	this.forklift = new Forklift(
@@ -67,9 +64,6 @@ public class Robot extends IterativeRobot {
     			this.prefs.getInt("bottomSwitchCounterSensitivity", 4));
     	
     	this.eStopTriggered = false;
-    	
-    	//checks and runs the start up text for logger
-    	//this.logger.logInit();
     }
 
     public void autonomousInit() {
@@ -90,7 +84,7 @@ public class Robot extends IterativeRobot {
     	
     	this.driveTrain.update();
     	
-    	//this.logger.profileDriveTrain(this.driveTrain);
+    	this.logger.profileDriveTrain(this.driveTrain);
     }
     
     public void teleopInit() {
@@ -131,6 +125,7 @@ public class Robot extends IterativeRobot {
     	this.driveTrain.update();
         this.forklift.update();
         
-        //this.logger.profileDriveTrain(this.driveTrain);
+        this.logger.profileDriveTrain(this.driveTrain);
+        this.logger.profileForklift(this.forklift);
     }
 }

@@ -26,7 +26,7 @@ public class Logger {
 	
 	public void profileForklift(Forklift forklift) {
 		SmartDashboard.putBoolean("isAbove", forklift.isCarriageAbove());
-		SmartDashboard.putBoolean("isAbove", forklift.isCarriageBelow());
+		SmartDashboard.putBoolean("isBelow", forklift.isCarriageBelow());
 		
 		System.out.println("top switch curr count: "+ forklift.topSwitchCurrCount() + "; top switch last count: " + forklift.topSwitchLastCount());
 		System.out.println("bottom switch curr count: "+ forklift.bottomSwitchCurrCount() + "; bottom switch last count: " + forklift.bottomSwitchLastCount());

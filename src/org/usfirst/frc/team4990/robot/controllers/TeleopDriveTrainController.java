@@ -117,18 +117,15 @@ public class TeleopDriveTrainController {
 		 */
 		
 		//goes forward and also runs this if reverse turning disabled
-		if ((turnSteepness < 0 && throttle > 0)||((turnSteepness > 0 && throttle < 0) && !reverseTurningFlipped)) {
-			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
+		if ((this.reverseTurningFlipped && throttle < 0 && turnSteepness > 0) || 
+			(!this.reverseTurningFlipped && throttle < 0 && turnSteepness < 0) || 
+			(throttle > 0 && turnSteepness < 0)) {
+			leftWheelSpeed = calculateInsideWheelSpeed(throttle, turnSteepness);
 			rightWheelSpeed = throttle;
 			
 		}
 		
-		//if statement to reverse directions going backwards?
-		//probably should check if this works
-		if((turnSteepness > 0 && throttle < 0) && reverseTurningFlipped){
-			rightWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
-			leftWheelSpeed = throttle;
-		}
+		System.out.println(leftWheelSpeed + "; " + rightWheelSpeed);
 		
 		this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);
 	}

@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
 
     	this.forklift = new Forklift(
     			new TalonMotorController(4), 
-    			0, 
+    			1, 
     			4, // top switch
     			this.prefs.getInt("topSwitchCounterSensitivity", 4),
     			5, // bottom switch

@@ -87,6 +87,7 @@ public class Elevator {
 	}
 	
 	public void reset() {
+		System.out.println("ELEVATOR RESET");
 		this.topSwitch.reset();
 		this.isAbove = false;
 		this.isAboveSwitchInProgress = false;

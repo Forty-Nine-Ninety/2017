@@ -42,17 +42,19 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	System.out.println("Version 1.3.20.9.03");
     	this.prefs = Preferences.getInstance();
     	this.logger = new Logger();
     	
-    	this.driveGamepad = new F310Gamepad(1);
-    	this.forkliftJoystick = new Joystick(2);
+    	this.driveGamepad = new F310Gamepad(this.prefs.getInt("driveGamepadPort",1));
+    	this.forkliftJoystick = new Joystick(this.prefs.getInt("forkliftJoystickPort",0));
+    	
     	
     	this.driveTrain = new DriveTrain( 
-    		new TalonSRXMotorController(0),
-    		new TalonSRXMotorController(1),
-    		new TalonSRXMotorController(2),
-    		new TalonSRXMotorController(3),
+    		new TalonMotorController(0),
+    		new TalonMotorController(1),
+    		new TalonMotorController(2),
+    		new TalonMotorController(3),
     		0, 1, 2, 3);
 
     	this.forklift = new Forklift(

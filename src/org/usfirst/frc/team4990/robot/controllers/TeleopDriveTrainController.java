@@ -62,6 +62,10 @@ public class TeleopDriveTrainController {
 		double throttleInput = this.gamepad.getLeftJoystickY();
 		double turnSteepnessInput = this.gamepad.getRightJoystickX();
 		
+		System.out.println("Throttle Input:" + throttleInput);
+		
+		System.out.println("turnSteepnessInput:" + turnSteepnessInput);
+		
 		Date currentUpdate = new Date();
 		
 		double throttle = getNextThrottle(
@@ -77,6 +81,9 @@ public class TeleopDriveTrainController {
 				this.lastUpdate,
 				currentUpdate,
 				this.accelerationTime);
+		
+		System.out.println("throttle:" + throttle);
+		System.out.println("turnSteepness" + turnSteepness);
 		
 		if (throttle != 0 && turnSteepnessInput != 0) {
 			setArcTrajectory(throttle, turnSteepnessInput);
@@ -109,6 +116,10 @@ public class TeleopDriveTrainController {
 	}
 	
 	public void setArcTrajectory(double throttle, double turnSteepness) {
+		System.out.println("setAT throttle:" + throttle);
+		System.out.println("setAT turnSteepness: " + turnSteepness);
+		//without if statement; turns to the right
+		
 		double leftWheelSpeed = throttle;
 		double rightWheelSpeed = calculateInsideWheelSpeed(throttle, turnSteepness);
 		
@@ -117,10 +128,11 @@ public class TeleopDriveTrainController {
 		 */
 		
 		//goes forward and also runs this if reverse turning disabled
-		if ((this.reverseTurningFlipped && throttle < 0 && turnSteepness > 0) || 
+		if ((this.reverseTurningFlipped && throttle < 0 && turnSteepness > 0) ||
+	
 			(!this.reverseTurningFlipped && throttle < 0 && turnSteepness < 0) || 
 			(throttle > 0 && turnSteepness < 0)) {
-			leftWheelSpeed = calculateInsideWheelSpeed(throttle, turnSteepness);
+			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
 			rightWheelSpeed = throttle;
 			
 		}

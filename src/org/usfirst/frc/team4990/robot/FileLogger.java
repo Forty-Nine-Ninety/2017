@@ -1,6 +1,9 @@
 package org.usfirst.frc.team4990.robot;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FileLogger {
 
@@ -24,12 +27,15 @@ public class FileLogger {
 	
 	public void writeToLog(String text)
 	{
+		DateFormat df = new SimpleDateFormat("HH:mm:ss dd/MM/YYYY");
+		Date date = new Date();
+		
 		try {
 			PrintWriter pw = new PrintWriter(
 					new BufferedWriter(
-							new FileWriter(log)));
+							new FileWriter(log) ), true);
 			
-			pw.println(text);
+			pw.println(df.format(date) + "      "  + text);
 		
 			pw.close();
 		} catch (Exception e) {

@@ -69,24 +69,18 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
-    	this.autoDriveTrainController = new AutoDriveTrainController(
-    			this.driveTrain);
+  
+    	autoDriveTrainController.setAutoDriveConstraints(5, 24.0, 0.2);
     	
-    	this.autoDriveTrainController.setMotionProfile(
-    			this.prefs.getInt("autoDelay", 0), 
-    			this.prefs.getInt("autoDriveTime", 0), 
-    			this.prefs.getDouble("autoVelocity", 0));
     }
     
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	this.autoDriveTrainController.updateDriveTrainState();
     	
-    	this.driveTrain.update();
+    	autoDriveTrainController.updateAutoDrive();
     	
-    	this.logger.profileDriveTrain(this.driveTrain);
     }
     
     public void teleopInit() {

@@ -7,32 +7,44 @@ import org.usfirst.frc.team4990.robot.lib.PositionPIDLoop;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 
 public class AutoDriveTrainController {
+	
 	private DriveTrain driveTrain;
-	
-	private int delay;
-	private int timeForward;
-	private double velocity;
-	
 	private Date motionProfileStart;
+	
+	private double currentLDistanceTraveled;
+	
+	private double wantedDistance;
+	private int delay;
+	private double velocity;
 	
 	public AutoDriveTrainController(DriveTrain driveTrain) {
 		this.driveTrain = driveTrain;
 	}
 	
-	public void setMotionProfile(int delay, int timeForward, double velocity) {
+	public void setAutoDriveConstraints(int delay, double distance, double velocity)
+	{
+		//delay in seconds
+		//distance measured in inches
+		//velocity from 0 - 1
+		this.wantedDistance = distance;
 		this.delay = delay;
-		this.timeForward = timeForward;
 		this.velocity = velocity;
-		this.motionProfileStart = new Date();
 	}
 	
-	public void updateDriveTrainState() {
-		long timeSinceStart = (new Date()).getTime() - this.motionProfileStart.getTime();
+	public void updateAutoDrive()
+	{
+		//getleftdistancetraveled returns in feet
+		//based on left distance
+		//arbitrary if bot moves straight
+		this.currentLDistanceTraveled = this.driveTrain.getLeftDistanceTraveled() / 12;
 		
-		if (timeSinceStart > this.delay && timeSinceStart < (this.delay + this.timeForward)) {
-			this.driveTrain.setSpeed(this.velocity, this.velocity);
-		} else {
-			this.driveTrain.setSpeed(0.0, 0.0);
+		if(this.currentLDistanceTraveled < this.wantedDistance)
+		{
+			this.driveTrain.setSpeed(velocity, velocity);
+		}
+		else {
+			double STOP = 0.0;
+			this.driveTrain.setSpeed(STOP, STOP);
 		}
 	}
 }

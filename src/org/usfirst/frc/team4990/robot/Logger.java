@@ -14,8 +14,10 @@ public class Logger {
 	private FileLogger fileLogger;
 	
 	public Logger() {
-		fileLogger = new FileLogger("~/home/lvuser/log/logs.txt");
+		fileLogger = new FileLogger("/home/lvuser/log/logs.txt");
 	}
+	
+	
 	
 	public void profileDriveTrain(DriveTrain driveTrain) {
 		SmartDashboard.putNumber("left set speed", driveTrain.getLeftSetSpeed());
@@ -24,6 +26,8 @@ public class Logger {
 		SmartDashboard.putNumber("right measured speed", driveTrain.getRightVelocity());
 		
 		fileLogger.writeToLog("left set speed" + driveTrain.getLeftSetSpeed());
+		//File Logger purposes
+		
 		System.out.println("left set speed: " + driveTrain.getLeftSetSpeed());
 		System.out.println("right set speed: " + driveTrain.getRightSetSpeed());
 		System.out.println("left measured speed: " + driveTrain.getLeftVelocity());

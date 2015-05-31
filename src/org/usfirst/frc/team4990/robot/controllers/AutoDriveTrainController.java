@@ -24,7 +24,7 @@ public class AutoDriveTrainController {
 	public void setAutoDriveConstraints(int delay, double distance, double velocity)
 	{
 		//delay in seconds
-		//distance measured in inches
+		//distance measured in feet
 		//velocity from 0 - 1
 		this.wantedDistance = distance;
 		this.delay = delay;
@@ -36,7 +36,7 @@ public class AutoDriveTrainController {
 		//getleftdistancetraveled returns in feet
 		//based on left distance
 		//arbitrary if bot moves straight
-		this.currentLDistanceTraveled = this.driveTrain.getLeftDistanceTraveled() / 12;
+		this.currentLDistanceTraveled = this.driveTrain.getLeftDistanceTraveled();
 		
 		if(this.currentLDistanceTraveled < this.wantedDistance)
 		{

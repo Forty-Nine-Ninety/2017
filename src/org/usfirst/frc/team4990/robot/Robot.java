@@ -49,7 +49,6 @@ public class Robot extends IterativeRobot {
     	this.driveGamepad = new F310Gamepad(this.prefs.getInt("driveGamepadPort",1));
     	this.forkliftJoystick = new Joystick(this.prefs.getInt("forkliftJoystickPort",0));
     	
-    	
     	this.driveTrain = new DriveTrain( 
     		new TalonMotorController(0),
     		new TalonMotorController(1),
@@ -69,7 +68,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
-  
+
+    	autoDriveTrainController = new AutoDriveTrainController(driveTrain);
     	autoDriveTrainController.setAutoDriveConstraints(5, 24.0, 0.2);
     	
     }
@@ -80,7 +80,10 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
     	
     	autoDriveTrainController.updateAutoDrive();
+    	driveTrain.update();
     	
+    	this.logger.profileDriveTrain(this.driveTrain);
+    	//Just for testing the File Logger
     }
     
     public void teleopInit() {

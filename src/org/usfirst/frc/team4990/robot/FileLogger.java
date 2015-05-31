@@ -33,10 +33,12 @@ public class FileLogger {
 		
 		try {
 			PrintWriter pw = new PrintWriter(
-					new BufferedWriter(
-							new FileWriter(log) ), true);
+							 new BufferedWriter(
+							 new FileWriter(log, true)), true);
 			
-			pw.println(df.format(date) + "      "  + text);
+			
+			
+			pw.println(df.format(date) + " "  + text);
 		
 			pw.close();
 		} catch (Exception e) {

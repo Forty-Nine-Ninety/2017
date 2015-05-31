@@ -10,7 +10,12 @@ import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.Forklift;
 
 public class Logger {
-	public Logger() {}
+	
+	private FileLogger fileLogger;
+	
+	public Logger() {
+		fileLogger = new FileLogger("~/home/lvuser/log/logs.txt");
+	}
 	
 	public void profileDriveTrain(DriveTrain driveTrain) {
 		SmartDashboard.putNumber("left set speed", driveTrain.getLeftSetSpeed());
@@ -18,10 +23,13 @@ public class Logger {
 		SmartDashboard.putNumber("left measured speed", driveTrain.getLeftVelocity());
 		SmartDashboard.putNumber("right measured speed", driveTrain.getRightVelocity());
 		
+		fileLogger.writeToLog("left set speed" + driveTrain.getLeftSetSpeed());
 		System.out.println("left set speed: " + driveTrain.getLeftSetSpeed());
 		System.out.println("right set speed: " + driveTrain.getRightSetSpeed());
 		System.out.println("left measured speed: " + driveTrain.getLeftVelocity());
 		System.out.println("right measured speed: " + driveTrain.getRightVelocity());
+		
+		
 	}
 	
 	public void profileForklift(Forklift forklift) {

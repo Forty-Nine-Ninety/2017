@@ -15,6 +15,7 @@ public class FileLogger {
 		if(!log.isFile() )
 		{
 			try {
+				log.getParentFile().mkdirs();
 				log.createNewFile();
 			} catch (Exception e) {
 				

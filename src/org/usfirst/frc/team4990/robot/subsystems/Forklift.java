@@ -64,4 +64,5 @@ public class Forklift {
 	public int bottomSwitchLastCount() {
 		return this.elevator.bottomSwitchLastCount();
 	}
+	
 }

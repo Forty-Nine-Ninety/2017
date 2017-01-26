@@ -38,13 +38,17 @@ public class AutoDriveTrainController {
 		//arbitrary if bot moves straight
 		this.currentLDistanceTraveled = this.driveTrain.getLeftDistanceTraveled();
 		
-		if(this.currentLDistanceTraveled < this.wantedDistance)
+		if(this.currentLDistanceTraveled < this.wantedDistance/2)
 		{
 			this.driveTrain.setSpeed(velocity, velocity);
+		}
+		else if (this.wantedDistance/2 < this.currentLDistanceTraveled & this.currentLDistanceTraveled < this.wantedDistance){
+			this.driveTrain.setSpeed(velocity, -velocity);
 		}
 		else {
 			double STOP = 0.0;
 			this.driveTrain.setSpeed(STOP, STOP);
 		}
+		
 	}
 }

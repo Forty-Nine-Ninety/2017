@@ -7,12 +7,13 @@ import edu.wpi.first.wpilibj.Preferences;
 import org.usfirst.frc.team4990.robot.controllers.AutoDriveTrainController;
 import org.usfirst.frc.team4990.robot.controllers.TeleopDriveTrainController;
 import org.usfirst.frc.team4990.robot.controllers.TeleopForkliftController;
-import org.usfirst.frc.team4990.robot.lib.MotionProfile;
+//import org.usfirst.frc.team4990.robot.lib.MotionProfile;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
+import org.usfirst.frc.team4990.robot.subsystems.Fork;
 import org.usfirst.frc.team4990.robot.subsystems.Forklift;
 import org.usfirst.frc.team4990.robot.subsystems.motors.TalonMotorController;
-import org.usfirst.frc.team4990.robot.subsystems.motors.TalonSRXMotorController;
+//import org.usfirst.frc.team4990.robot.subsystems.motors.TalonSRXMotorController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,6 +30,7 @@ public class Robot extends IterativeRobot {
 	private DriveTrain driveTrain;
 	
 	private Joystick forkliftJoystick;
+	private Fork fork;
 	private Forklift forklift;
 	
 	private AutoDriveTrainController autoDriveTrainController;
@@ -46,6 +48,9 @@ public class Robot extends IterativeRobot {
     	this.prefs = Preferences.getInstance();
     	this.logger = new Logger();
     	
+    	this.fork = new Fork(1);
+    	this.fork.compressor.start();
+    	
     	this.driveGamepad = new F310Gamepad(this.prefs.getInt("driveGamepadPort",1));
     	this.forkliftJoystick = new Joystick(this.prefs.getInt("forkliftJoystickPort",0));
     	
@@ -56,21 +61,15 @@ public class Robot extends IterativeRobot {
     		new TalonMotorController(3),
     		0, 1, 2, 3);
 
-    	this.forklift = new Forklift(
-    			new TalonMotorController(4), 
-    			1, 
-    			4, // top switch
-    			this.prefs.getInt("topSwitchCounterSensitivity", 4),
-    			5, // bottom switch
-    			this.prefs.getInt("bottomSwitchCounterSensitivity", 4));
     	
-    	this.eStopTriggered = false;
+    	//this.eStopTriggered = false;
     }
 
     public void autonomousInit() {
 
     	autoDriveTrainController = new AutoDriveTrainController(driveTrain);
-    	autoDriveTrainController.setAutoDriveConstraints(5, 24.0, 0.2);
+    	autoDriveTrainController.setAutoDriveConstraints(5, 12.0, 0.1);
+    	
     	
     }
     
@@ -112,16 +111,16 @@ public class Robot extends IterativeRobot {
     	
     	if (!this.eStopTriggered) {
 	        this.teleopDriveTrainController.updateDriveTrainState();
-	        this.teleopForkliftController.updateForkliftState();
+	        //this.teleopForkliftController.updateForkliftState();
     	} else {
     		this.driveTrain.setSpeed(0.0, 0.0);
-    		this.forklift.setElevatorPower(0.0);
+    		//this.forklift.setElevatorPower(0.0);
     	}
     	
     	this.driveTrain.update();
-        this.forklift.update();
+        //this.forklift.update();
         
         this.logger.profileDriveTrain(this.driveTrain);
-        this.logger.profileForklift(this.forklift);
+        //this.logger.profileForklift(this.forklift);
     }
 }

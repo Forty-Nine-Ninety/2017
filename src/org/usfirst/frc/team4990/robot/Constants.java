@@ -12,7 +12,7 @@ public class Constants {
 	 * units: feet
 	 */
 	 
-	public static final double defaultMaxTurnRadius = 1.0;
+	public static final double defaultMaxTurnRadius = 0.8;
 
 	/*
 	 * units: feet

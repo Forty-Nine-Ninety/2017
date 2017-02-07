@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot {
         		this.driveGamepad, 
         		this.driveTrain, 
         		this.prefs.getDouble("maxTurnRadius", Constants.defaultMaxTurnRadius),
-        		this.prefs.getBoolean("reverseTurningFlipped", true),
+        		this.prefs.getBoolean("reverseTurningFlipped", false),
         		this.prefs.getDouble("smoothDriveAccTime", Constants.defaultAccelerationTime),
         		this.prefs.getDouble("lowThrottleMultiplier", .25),
         		this.prefs.getDouble("maxThrottle", 1.0));

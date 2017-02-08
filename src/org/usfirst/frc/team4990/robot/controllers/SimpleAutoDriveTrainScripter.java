@@ -7,7 +7,7 @@ public class SimpleAutoDriveTrainScripter extends AutoDriveTrainScripter {
 	
 	public void init()
 	{
-		
+		forward(1000, .01);
 	}
 	
 	public SimpleAutoDriveTrainScripter(DriveTrain dtrain) {

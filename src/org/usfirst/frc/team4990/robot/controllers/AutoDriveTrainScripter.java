@@ -5,6 +5,8 @@ import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import java.util.LinkedList;
 import java.util.Queue;
 
+//You shouldn't fuck with this if you don't know what you're doing
+
 public class AutoDriveTrainScripter {
 	
 	public enum SCRIPTCOMMAND {
@@ -24,6 +26,7 @@ public class AutoDriveTrainScripter {
 	}
 	
 	private void evaluateAndRun(ScriptPackage sp) {
+		System.out.println("evaluating!");
 		switch(sp.sc) {
 		case FORWARD:
 			dt.setSpeed(sp.specialval, sp.specialval);
@@ -47,7 +50,14 @@ public class AutoDriveTrainScripter {
 		dt = dtrain;
 	}
 	
+	protected void init() {
+		currcmd = cmdqueue.remove();
+	}
+	
 	public void update() {
+		System.out.println("updating!");
+		dt.setSpeed(0, 0);
+		
 		if(currcmd == null) return;
 		
 		if(starttime + currcmd.milliDuration <= System.currentTimeMillis() ) {

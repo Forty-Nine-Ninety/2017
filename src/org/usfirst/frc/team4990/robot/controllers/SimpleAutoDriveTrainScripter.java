@@ -5,14 +5,20 @@ import org.usfirst.frc.team4990.robot.controllers.AutoDriveTrainScripter;
 
 public class SimpleAutoDriveTrainScripter extends AutoDriveTrainScripter {
 	
-	public void init()
-	{
+	protected void init() {
 		forward(1000, .01);
+		
+		
+		//Please don't mess below if you want to change auto scripting
+		super.init();
 	}
-	
 	public SimpleAutoDriveTrainScripter(DriveTrain dtrain) {
 		super(dtrain);
 		init();
+	}
+	
+	public void update() {
+		super.update();
 	}
 
 }

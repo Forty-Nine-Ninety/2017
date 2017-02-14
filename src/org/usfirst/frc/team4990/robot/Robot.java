@@ -1,17 +1,13 @@
 package org.usfirst.frc.team4990.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 
-import org.usfirst.frc.team4990.robot.controllers.AutoDriveTrainController;
+import org.usfirst.frc.team4990.robot.controllers.SimpleAutoDriveTrainScripter;
 import org.usfirst.frc.team4990.robot.controllers.TeleopDriveTrainController;
-import org.usfirst.frc.team4990.robot.controllers.TeleopForkliftController;
 //import org.usfirst.frc.team4990.robot.lib.MotionProfile;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
-import org.usfirst.frc.team4990.robot.subsystems.Fork;
-import org.usfirst.frc.team4990.robot.subsystems.Forklift;
 import org.usfirst.frc.team4990.robot.subsystems.motors.TalonMotorController;
 //import org.usfirst.frc.team4990.robot.subsystems.motors.TalonSRXMotorController;
 
@@ -23,22 +19,15 @@ import org.usfirst.frc.team4990.robot.subsystems.motors.TalonMotorController;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	Preferences prefs;
-	private Logger logger;
-	
+	private Preferences prefs;
 	private F310Gamepad driveGamepad;
 	private DriveTrain driveTrain;
 	
-	private Joystick forkliftJoystick;
-	private Fork fork;
-	private Forklift forklift;
-	
-	private AutoDriveTrainController autoDriveTrainController;
+	private SimpleAutoDriveTrainScripter autoScripter;
 	
 	private boolean eStopTriggered;
 	
 	private TeleopDriveTrainController teleopDriveTrainController;
-	private TeleopForkliftController teleopForkliftController;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -46,13 +35,8 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	System.out.println("Version 1.3.20.9.03");
     	this.prefs = Preferences.getInstance();
-    	this.logger = new Logger();
     	
-    	this.fork = new Fork(1);
-    	this.fork.compressor.start();
-    	
-    	this.driveGamepad = new F310Gamepad(this.prefs.getInt("driveGamepadPort",1));
-    	this.forkliftJoystick = new Joystick(this.prefs.getInt("forkliftJoystickPort",0));
+    	this.driveGamepad = new F310Gamepad(1);
     	
     	this.driveTrain = new DriveTrain( 
     		new TalonMotorController(0),
@@ -66,11 +50,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
-
-    	autoDriveTrainController = new AutoDriveTrainController(driveTrain);
-    	autoDriveTrainController.setAutoDriveConstraints(5, 12.0, 0.1);
-    	
-    	
+    	autoScripter = new SimpleAutoDriveTrainScripter(driveTrain);
     }
     
     /**
@@ -78,11 +58,8 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	
-    	autoDriveTrainController.updateAutoDrive();
+    	autoScripter.update();
     	driveTrain.update();
-    	
-    	this.logger.profileDriveTrain(this.driveTrain);
-    	//Just for testing the File Logger
     }
     
     public void teleopInit() {
@@ -94,33 +71,19 @@ public class Robot extends IterativeRobot {
         		this.prefs.getDouble("smoothDriveAccTime", Constants.defaultAccelerationTime),
         		this.prefs.getDouble("lowThrottleMultiplier", .25),
         		this.prefs.getDouble("maxThrottle", 1.0));
-    	
-    	this.teleopForkliftController = new TeleopForkliftController(
-    			this.forkliftJoystick, 
-    			this.forklift,
-    			this.prefs.getDouble("maxPowerPercent", 0.4));
     }
      
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	if (this.forkliftJoystick.getRawButton(11)) {
-    		this.eStopTriggered = true;
-    	}
     	
     	if (!this.eStopTriggered) {
 	        this.teleopDriveTrainController.updateDriveTrainState();
-	        //this.teleopForkliftController.updateForkliftState();
     	} else {
     		this.driveTrain.setSpeed(0.0, 0.0);
-    		//this.forklift.setElevatorPower(0.0);
     	}
     	
     	this.driveTrain.update();
-        //this.forklift.update();
-        
-        this.logger.profileDriveTrain(this.driveTrain);
-        //this.logger.profileForklift(this.forklift);
     }
 }

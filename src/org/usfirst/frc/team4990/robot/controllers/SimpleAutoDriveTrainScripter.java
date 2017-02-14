@@ -6,7 +6,7 @@ import org.usfirst.frc.team4990.robot.controllers.AutoDriveTrainScripter;
 public class SimpleAutoDriveTrainScripter extends AutoDriveTrainScripter {
 	
 	protected void init() {
-		forward(1000, .01);
+		forward(1000, .5);
 		
 		
 		//Please don't mess below if you want to change auto scripting

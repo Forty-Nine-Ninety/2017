@@ -26,9 +26,9 @@ public class AutoDriveTrainScripter {
 	}
 	
 	private void evaluateAndRun(ScriptPackage sp) {
-		System.out.println("evaluating!");
 		switch(sp.sc) {
 		case FORWARD:
+			System.out.println(sp.specialval);
 			dt.setSpeed(sp.specialval, sp.specialval);
 			break;
 		case TURN:
@@ -52,10 +52,10 @@ public class AutoDriveTrainScripter {
 	
 	protected void init() {
 		currcmd = cmdqueue.remove();
+		starttime = System.currentTimeMillis();
 	}
 	
 	public void update() {
-		System.out.println("updating!");
 		dt.setSpeed(0, 0);
 		
 		if(currcmd == null) return;

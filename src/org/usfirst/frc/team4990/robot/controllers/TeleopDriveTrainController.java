@@ -86,7 +86,7 @@ public class TeleopDriveTrainController {
 		System.out.println("turnSteepness" + turnSteepness);
 		
 		if (throttle != 0 && turnSteepnessInput != 0) {
-			setArcTrajectory(throttle, turnSteepnessInput);
+			setArcTrajectory(throttle, -turnSteepnessInput);
 		} else if (throttle != 0 && turnSteepnessInput == 0) { 
 			setStraightTrajectory(throttle);
 		} else if (throttle == 0 && turnSteepness != 0) {

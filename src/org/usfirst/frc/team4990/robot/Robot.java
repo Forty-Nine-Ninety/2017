@@ -28,8 +28,6 @@ public class Robot extends IterativeRobot {
 	
 	private SimpleAutoDriveTrainScripter autoScripter;
 	
-	private boolean eStopTriggered;
-	
 	private TeleopDriveTrainController teleopDriveTrainController;
 	private TeleopScalerController teleopScalerController;
     /**
@@ -50,8 +48,6 @@ public class Robot extends IterativeRobot {
     		0, 1, 2, 3);
     	
     	this.scaler = new Scaler(new TalonMotorController(4) );
-    	
-    	this.eStopTriggered = false;
     }
 
     public void autonomousInit() {
@@ -88,14 +84,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	
-    	if (!this.eStopTriggered) {
-	        this.teleopDriveTrainController.updateDriveTrainState();
-	        this.teleopScalerController.update();
-    	} else {
-    		this.driveTrain.setSpeed(0.0, 0.0);
-    		this.scaler.setSpeed(0.0);
-    	}
-    	
+	    this.teleopDriveTrainController.updateDriveTrainState();
+	    this.teleopScalerController.update();
+
     	this.driveTrain.update();
     	this.scaler.update();
     }

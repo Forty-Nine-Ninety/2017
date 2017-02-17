@@ -47,7 +47,7 @@ public class TeleopDriveTrainController {
 	}
 	
 	public void updateDriveTrainState() {
-		boolean dpiTogglePressed = this.gamepad.getRightBumperPressed();
+		boolean dpiTogglePressed = this.gamepad.getXButtonPressed();
 		
 		if (dpiTogglePressed && !this.lastDpiToggleInput) {
 			if (this.currentThrottleMultiplier == this.maxThrottle) {

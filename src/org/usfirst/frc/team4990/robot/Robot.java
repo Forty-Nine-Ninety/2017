@@ -8,6 +8,8 @@ import org.usfirst.frc.team4990.robot.controllers.TeleopDriveTrainController;
 import org.usfirst.frc.team4990.robot.controllers.TeleopScalerController;
 //import org.usfirst.frc.team4990.robot.lib.MotionProfile;
 import org.usfirst.frc.team4990.robot.subsystems.Scaler;
+import org.usfirst.frc.team4990.robot.subsystems.BallShooter;
+import org.usfirst.frc.team4990.robot.subsystems.ConveyorBelt;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
 import org.usfirst.frc.team4990.robot.subsystems.motors.TalonMotorController;
@@ -25,6 +27,8 @@ public class Robot extends IterativeRobot {
 	private F310Gamepad driveGamepad;
 	private DriveTrain driveTrain;
 	private Scaler scaler;
+	private BallShooter ballshooter;
+	private ConveyorBelt conveyorbelt;
 	
 	private SimpleAutoDriveTrainScripter autoScripter;
 	
@@ -48,6 +52,8 @@ public class Robot extends IterativeRobot {
     		0, 1, 2, 3);
     	
     	this.scaler = new Scaler(new TalonMotorController(4) );
+    	this.ballshooter = new BallShooter(new TalonMotorController(5), new TalonMotorController(6) );
+    	this.conveyorbelt = new ConveyorBelt(new TalonMotorController(7) );
     }
 
     public void autonomousInit() {
@@ -86,6 +92,12 @@ public class Robot extends IterativeRobot {
     	
 	    this.teleopDriveTrainController.updateDriveTrainState();
 	    this.teleopScalerController.update();
+	    
+	    //ever heard of the tale of last minute code
+	    //I thought not, it is not a tale the chairman will tell to you
+	    
+	    if(driveGamepad.getAButtonPressed() ) this.ballshooter.setPower(1);
+	    if(driveGamepad.getYButtonPressed() ) this.conveyorbelt.setPower(1);
 
     	this.driveTrain.update();
     	this.scaler.update();

@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj.Preferences;
 
 import org.usfirst.frc.team4990.robot.controllers.SimpleAutoDriveTrainScripter;
 import org.usfirst.frc.team4990.robot.controllers.TeleopDriveTrainController;
+import org.usfirst.frc.team4990.robot.controllers.TeleopScalerController;
 //import org.usfirst.frc.team4990.robot.lib.MotionProfile;
+import org.usfirst.frc.team4990.robot.subsystems.Scaler;
 import org.usfirst.frc.team4990.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4990.robot.subsystems.F310Gamepad;
 import org.usfirst.frc.team4990.robot.subsystems.motors.TalonMotorController;
@@ -22,12 +24,12 @@ public class Robot extends IterativeRobot {
 	private Preferences prefs;
 	private F310Gamepad driveGamepad;
 	private DriveTrain driveTrain;
+	private Scaler scaler;
 	
 	private SimpleAutoDriveTrainScripter autoScripter;
 	
-	private boolean eStopTriggered;
-	
 	private TeleopDriveTrainController teleopDriveTrainController;
+	private TeleopScalerController teleopScalerController;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -44,9 +46,8 @@ public class Robot extends IterativeRobot {
     		new TalonMotorController(2),
     		new TalonMotorController(3),
     		0, 1, 2, 3);
-
     	
-    	//this.eStopTriggered = false;
+    	this.scaler = new Scaler(new TalonMotorController(4) );
     }
 
     public void autonomousInit() {
@@ -71,6 +72,11 @@ public class Robot extends IterativeRobot {
         		this.prefs.getDouble("smoothDriveAccTime", Constants.defaultAccelerationTime),
         		this.prefs.getDouble("lowThrottleMultiplier", .25),
         		this.prefs.getDouble("maxThrottle", 1.0));
+    	
+    	this.teleopScalerController = new TeleopScalerController(
+    			this.scaler,
+    			this.driveGamepad,
+    			this.prefs.getDouble("scaleThrottle", 1.0));
     }
      
     /**
@@ -78,12 +84,10 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	
-    	if (!this.eStopTriggered) {
-	        this.teleopDriveTrainController.updateDriveTrainState();
-    	} else {
-    		this.driveTrain.setSpeed(0.0, 0.0);
-    	}
-    	
+	    this.teleopDriveTrainController.updateDriveTrainState();
+	    this.teleopScalerController.update();
+
     	this.driveTrain.update();
+    	this.scaler.update();
     }
 }

@@ -32,7 +32,7 @@ public class AutoDriveTrainScripter {
 			dt.setSpeed(sp.specialval, sp.specialval);
 			break;
 		case TURN:
-			//add in functionality later!
+			dt.setSpeed(sp.specialval, -sp.specialval);
 			break;
 		default:
 			break;
@@ -80,7 +80,7 @@ public class AutoDriveTrainScripter {
 		cmdqueue.add(new ScriptPackage(SCRIPTCOMMAND.FORWARD, duration, speed) );
 	}
 	
-	public void turn(double duration, double degrees) {
-		cmdqueue.add(new ScriptPackage(SCRIPTCOMMAND.TURN, duration, degrees) );
+	public void turn(double duration, double speed) {
+		cmdqueue.add(new ScriptPackage(SCRIPTCOMMAND.TURN, duration, speed) );
 	}
 }

@@ -96,8 +96,14 @@ public class Robot extends IterativeRobot {
 	    //ever heard of the tale of last minute code
 	    //I thought not, it is not a tale the chairman will tell to you
 	    
+	    this.ballshooter.setPower(0);
+	    this.conveyorbelt.setPower(0);
+	    
 	    if(driveGamepad.getAButtonPressed() ) this.ballshooter.setPower(1);
 	    if(driveGamepad.getYButtonPressed() ) this.conveyorbelt.setPower(1);
+	    
+	    this.ballshooter.update();
+	    this.conveyorbelt.update();
 
     	this.driveTrain.update();
     	this.scaler.update();

@@ -9,9 +9,11 @@ public class SimpleAutoDriveTrainScripter extends AutoDriveTrainScripter {
 		//@ -.5 power, 57 inches in one second FORWARD
 		//@ -.5 power, approx 390 degrees per second CLOCKWISE
 		//
-		forward(1754, -.5);
-		turn(350, -.5);
-		forward(1000, .5);
+		forward(2580, -.3);
+		// a little more than 88 inches^^
+		//forward(2982, -.3);
+		//turn(350, -.5);
+		//forward(1000, .5);
 		
 		//Please don't mess below if you want to change auto scripting
 		super.init();

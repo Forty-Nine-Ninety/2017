@@ -128,11 +128,22 @@ public class TeleopDriveTrainController {
 		 */
 		
 		//goes forward and also runs this if reverse turning disabled
-		if ((this.reverseTurningFlipped && throttle < 0 && turnSteepness > 0) ||
-	
-			(!this.reverseTurningFlipped && throttle < 0 && turnSteepness < 0) || 
-			(throttle > 0 && turnSteepness < 0)) {
-			leftWheelSpeed = calculateInsideWheelSpeed(throttle, -turnSteepness);
+		boolean slowLeft;
+		if (turnSteepness < 0) {
+			if (throttle < 0) {
+				slowLeft = true;
+			} else {
+				slowLeft = false;
+			}
+		}else {
+			if (throttle < 0) {
+				slowLeft = false;
+			} else {
+				slowLeft = true;
+			}
+		}
+		if (slowLeft) {
+			leftWheelSpeed = calculateInsideWheelSpeed(throttle,-turnSteepness);
 			rightWheelSpeed = throttle;
 			
 		}
@@ -141,6 +152,8 @@ public class TeleopDriveTrainController {
 		
 		this.driveTrain.setSpeed(leftWheelSpeed, rightWheelSpeed);
 	}
+	
+	// TAKE ANOTHER LOOK LATER!!!  INNER WHEEL IS FLIPPED 
 	
 	private double calculateInsideWheelSpeed(double outsideWheelSpeed, double turnSteepness) {
 		double turnRadius = this.maxTurnRadius - (turnSteepness * this.maxTurnRadius);
